@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Scribe 0.1</title>title>
+<style type="text/css">
+
+</style>
+</head>
+<body>
+
+<div id="navbar">
+	Scribe 0.1
+	<div id="menu_button">
+	---
+	</div>
+</div>
+
+<!-- tabs -->
+Project
+Scene
+Character
+Setting
+<div id="project">
+	<h3>Project</h3>
+	Select:
+	New
+	Title:
+	Date:
+	Number of Scenes:
+
+	Import/Overwrite
+	Export Save File
+	Export Text
+
+
+	<h3>Outline</h3>
+	Title:
+	Objective:
+</div>
+
+<div id="scene">
+	<h3>Scene</h3>
+	Select:
+	New
+	Title:
+	Date:
+	Objective:
+	Characters:
+	Text:
+	Last line of previous scene?
+	First line of following scene?
+
+</div>
+<div id="characters">
+	<h3>Character</h3>
+	Select:
+	New:
+	Text:
+</div>
+<div id="settings">
+	<h3>Setting</h3>
+	Select:
+	New:
+	Text:
+</div>
+
+<script>
+var scribe = {
+	settings : {
+		defaults : {
+			view : 0, // 0-project, 1-scene, 2-outline, 3-card
+			project : 0, // index in data of project last opened
+			scene : 0, // indexe of scene in project last opened
+		}
+	},
+	init : function () {
+		// let's get things started!
+	},
+	load_current_projects : function () {
+		// load current projects from browser memory
+	},
+	// Project Functions
+	load_project : function () {
+
+	},
+	save_project : function () {
+
+	},
+	new_project : function () {
+
+	},
+	import_project : function () {
+
+	},
+	export_project : function () {
+
+	},
+	export_text : function () {
+
+	},
+	print_text : function () {
+
+	},
+	// Scene Functions
+	load_scene : function () {
+
+	},
+	save_scene : function () {
+
+	},
+	new_scene : function () {
+
+	}
+
+	data : [{
+		p_name : "default project",
+		p_createdate : 2016-07-13,
+		p_lastdate : 2016-07-14,
+		p_scenes : [{
+			s_name : "scene 0",
+			s_lastdate : 2016-07-14,
+			s_title : "Scene 0- Once upon a time",
+			s_purpose : "To begin the story and introduce the characters.",
+			s_characters : "John and Mary",
+			s_text : "Once upon a time John and Mary sat on a bench in the park."
+		}],
+		p_characters : [{
+			"John" : "Tall, dark, handsome!",
+			"Mary" : "The woman of John's dreams."
+		}],
+		p_settings : [{
+			"Park" : "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."
+		}]
+	}]
+}
+
+</script>
+</body>
+</html>
