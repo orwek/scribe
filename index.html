@@ -1,9 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Scribe 0.1</title>title>
+<title> Scribe 0.1</title>
 <style type="text/css">
+	body {
+		margin: 0px;
+		padding: 0px;
+	}
+	#body {
+		margin-left: 10px;
+	}
+	.btn {
+		background-color: #e7e7e7;
+		border-radius: 8px;
+		padding: 8px;
+		margin-left: 10px;
+		cursor: pointer;
+	}
+	.btn_select {
+		background-color: #000000;
+		color: #e7e7e7;
+	}
+	.hide {
+		display: none;
+	}
+	.show {
+		display: block;
+	}
 
+	#navbar {
+		height: 20px;
+		background-color: #000000;
+		color: #ffffff;
+		width: auto;
+		margin-bottom: 20px;
+		padding: 10px;
+	}
+	#menu_button {
+		float: right;
+		width: 25px;
+	}
 </style>
 </head>
 <body>
@@ -16,65 +52,103 @@
 </div>
 
 <!-- tabs -->
-Project
-Scene
-Character
-Setting
-<div id="project">
-	<h3>Project</h3>
-	Select:
-	New
-	Title:
-	Date:
-	Number of Scenes:
+<a class="btn" id="project_btn" onclick="scribe.nav('project');">Project</a>
+<a class="btn" id="scene_btn" onclick="scribe.nav('scene');">Scene</a>
+<a class="btn" id="character_btn" onclick="scribe.nav('character');">Character</a>
+<a class="btn" id="setting_btn" onclick="scribe.nav('setting');">Setting</a>
 
-	Import/Overwrite
-	Export Save File
-	Export Text
+<div id="body">
+	<div id="project">
+		<h3>Project</h3>
+		Select: 
+		<select>
+			<option value="Select">Select</option>
+		</select>
+		<a class="btn">New</a><br />
+		Title:<br />
+		Date:<br />
+		Number of Scenes:<br />
+
+		Import/Overwrite<br />
+		Export Save File<br />
+		Export Text
 
 
-	<h3>Outline</h3>
-	Title:
-	Objective:
+		<h3>Outline</h3>
+		Title:<br />
+		Objective:
+	</div>
+
+	<div id="scene">
+		<h3>Scene</h3>
+		Select:
+		<select>
+			<option value="Select">Select</option>
+		</select>
+		<a class="btn">New</a><br />
+		Title:<br />
+		Date:<br />
+		Objective:<br />
+		Characters:<br />
+		Text:<br />
+		Compare: Character, Setting, Scene (Hot buttons for prev and following)
+
+	</div>
+	<div id="character">
+		<h3>Character</h3>
+		Select:
+		<select>
+			<option value="Select">Select</option>
+		</select>
+		<a class="btn">New</a><br />
+		Name:<br />
+		Text:<br />
+	</div>
+	<div id="setting">
+		<h3>Setting</h3>
+		Select:	
+		<select>
+			<option value="Select">Select</option>
+		</select>
+		<a class="btn">New</a><br />
+		Name:<br />
+		Text:<br />
+	</div>
 </div>
 
-<div id="scene">
-	<h3>Scene</h3>
-	Select:
-	New
-	Title:
-	Date:
-	Objective:
-	Characters:
-	Text:
-	Last line of previous scene?
-	First line of following scene?
-
-</div>
-<div id="characters">
-	<h3>Character</h3>
-	Select:
-	New:
-	Text:
-</div>
-<div id="settings">
-	<h3>Setting</h3>
-	Select:
-	New:
-	Text:
-</div>
 
 <script>
+var a = {
+	get : function (id) {
+		return document.getElementById(id);
+	}
+};
+
 var scribe = {
 	settings : {
-		defaults : {
-			view : 0, // 0-project, 1-scene, 2-outline, 3-card
+		default : {
+			view : "project", // project, scene, character, setting
 			project : 0, // index in data of project last opened
 			scene : 0, // indexe of scene in project last opened
-		}
+		},
+		tabs : ["project", "scene", "character", "setting"]
 	},
 	init : function () {
 		// let's get things started!
+		scribe.nav(scribe.settings.default.view);
+	},
+	nav : function (id) {
+		scribe.view = id;
+		var tmp = scribe.settings.tabs;
+
+		for (i in tmp) {
+			a.get(tmp[i]).className = "hide";
+			a.get(tmp[i] + "_btn").className = "btn";
+		}
+
+		a.get(id).className = "show";
+		a.get(id + "_btn").className = "btn btn_select";
+
 	},
 	load_current_projects : function () {
 		// load current projects from browser memory
@@ -110,8 +184,7 @@ var scribe = {
 	},
 	new_scene : function () {
 
-	}
-
+	},
 	data : [{
 		p_name : "default project",
 		p_createdate : 2016-07-13,
@@ -132,7 +205,9 @@ var scribe = {
 			"Park" : "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."
 		}]
 	}]
-}
+};
+
+scribe.init();
 
 </script>
 </body>
