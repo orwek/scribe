@@ -8,13 +8,14 @@
 		padding: 0px;
 	}
 	#body {
-		margin-left: 10px;
+		width: 50%;
+		margin: auto;
 	}
 	.btn {
 		background-color: #e7e7e7;
 		border-radius: 8px;
 		padding: 8px;
-		margin-left: 10px;
+		margin: 10px;
 		cursor: pointer;
 	}
 	.btn_select {
@@ -51,13 +52,15 @@
 	</div>
 </div>
 
+<div id="body">
+
 <!-- tabs -->
 <a class="btn" id="project_btn" onclick="scribe.nav('project');">Project</a>
 <a class="btn" id="scene_btn" onclick="scribe.nav('scene');">Scene</a>
 <a class="btn" id="character_btn" onclick="scribe.nav('character');">Character</a>
 <a class="btn" id="setting_btn" onclick="scribe.nav('setting');">Setting</a>
 
-<div id="body">
+
 	<div id="project">
 		<h3>Project</h3>
 		Select: 
@@ -96,13 +99,15 @@
 	</div>
 	<div id="character">
 		<h3>Character</h3>
-		Select:
+		Select:	
 		<select>
 			<option value="Select">Select</option>
 		</select>
-		<a class="btn">New</a><br />
-		Name:<br />
-		Text:<br />
+		<a class="btn">New</a>
+		<a class="btn">Save</a><br /><br />
+		Name: <input type="text" /><br /><br />
+		Text: <br />
+		<textarea cols="40" rows="20"></textarea><br />
 	</div>
 	<div id="setting">
 		<h3>Setting</h3>
@@ -110,9 +115,11 @@
 		<select>
 			<option value="Select">Select</option>
 		</select>
-		<a class="btn">New</a><br />
-		Name:<br />
-		Text:<br />
+		<a class="btn">New</a>
+		<a class="btn">Save</a><br /><br />
+		Name: <input type="text" /><br /><br />
+		Text: <br />
+		<textarea cols="40" rows="20"></textarea><br />
 	</div>
 </div>
 
