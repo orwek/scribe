@@ -13,12 +13,13 @@
 	}
 	.btn {
 		background-color: #e7e7e7;
+		color: #000000;
 		border-radius: 8px;
-		padding: 8px;
+		padding: 5px;
 		margin: 10px;
 		cursor: pointer;
 	}
-	.btn_select {
+	.btn_select, .btn:hover {
 		background-color: #000000;
 		color: #e7e7e7;
 	}
@@ -41,68 +42,131 @@
 		float: right;
 		width: 25px;
 	}
+
+	.outline_row {
+		border: 1px solid #666666;
+		padding: 10px;
+	}
+
+	.outline_row .btn {
+		float: right;
+		margin-top: -20px;
+	}
+
+	h4 {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	h3 {
+		float:left;
+	}
+
+	select {
+		margin: 20px 0px 0px 10px;
+	}
+	.left {
+		float: left;
+		width: 45%;
+		border: 1px solid #000000;
+		padding: 10px;
+	}
+	.right {
+		float: right;
+		width: 45%;
+		border: 1px solid #000000;
+		padding: 10px;
+	}
+
 </style>
 </head>
 <body>
 
 <div id="navbar">
 	Scribe 0.1
-	<div id="menu_button">
-	---
+	<div style="float: right;">
+	<!-- tabs -->
+<a class="btn" id="project_btn" onclick="scribe.nav('project');">Project</a>
+<a class="btn" id="scene_btn" onclick="scribe.nav('scene');">Scene</a>
+<a class="btn" id="character_btn" onclick="scribe.nav('character');">Character</a>
+<a class="btn" id="setting_btn" onclick="scribe.nav('setting');">Setting</a>
 	</div>
 </div>
 
 <div id="body">
 
-<!-- tabs -->
-<a class="btn" id="project_btn" onclick="scribe.nav('project');">Project</a>
-<a class="btn" id="scene_btn" onclick="scribe.nav('scene');">Scene</a>
-<a class="btn" id="character_btn" onclick="scribe.nav('character');">Character</a>
-<a class="btn" id="setting_btn" onclick="scribe.nav('setting');">Setting</a>
+
 
 
 	<div id="project">
 		<h3>Project</h3>
-		Select: 
 		<select>
 			<option value="Select">Select</option>
 		</select>
-		<a class="btn">New</a><br />
-		Title:<br />
-		Date:<br />
-		Number of Scenes:<br />
-
-		Import/Overwrite<br />
-		Export Save File<br />
-		Export Text
-
+		<br style="clear:both;" />
+		<a class="btn">New</a>
+		<a class="btn">Save</a>
+		<a class="btn">Import/Overwrite</a>
+		<a class="btn">Export Save File</a>
+		<a class="btn">Export Text</a><br /><br /> 
+		
+		Title: <input type="text" id="p_title"/><br />
+		Date: <span id="p_lastdate">0</span><br />
+		Number of Scenes: <span id="p_scene_num">0</span><br />
+		Word Count: <span id="p_word_count">0</span><br />
+		<hr />
 
 		<h3>Outline</h3>
-		Title:<br />
-		Objective:
+		<br style="clear: both;" />
+		<div id="outline_stage">
+			<div id='{{id}}' class='outline_row'>
+				<h4>{{title}}</h4><br />
+				{{objective}} 
+				<a class='btn'>^</a>
+				<a class='btn'>v</a>
+			</div>
+		</div>
 	</div>
 
 	<div id="scene">
-		<h3>Scene</h3>
-		Select:
+		<h3>Scene</h3> 
 		<select>
 			<option value="Select">Select</option>
-		</select>
-		<a class="btn">New</a><br />
-		Title:<br />
+		</select><br style="clear: both;"/>
+		<a class="btn">New</a>
+		<a class="btn">Save</a><br /><br />		
+		Title: <input type="text" /><br />
+		Objective: <input type="text" /><br />
+		Characters: <input type="text" /><br />
 		Date:<br />
-		Objective:<br />
-		Characters:<br />
-		Text:<br />
-		Compare: Character, Setting, Scene (Hot buttons for prev and following)
+		Word Count: <span id="p_word_count">0</span><br /><br />
+		<div class="left">
+			<h3>Text:</h3>
+			<br style="clear: both;" />
+			<textarea cols="35" rows="15"></textarea>
+		</div>
+		<div class="right">
+			<h3>Notes</h3>
+			<select>
+				<option value="Select">Character</option>
+				<option value="Select">Setting</option>
+				<option value="Select">Scene</option>
+			</select>
+			<select>
+				<option value="Select">Select</option>
+			</select> 
+			<br style="clear: both;" />
+
+			<textarea cols="35" rows="15"></textarea>
+		</div>
 
 	</div>
 	<div id="character">
 		<h3>Character</h3>
-		Select:	
 		<select>
 			<option value="Select">Select</option>
 		</select>
+		<br style="clear: both;"/>
 		<a class="btn">New</a>
 		<a class="btn">Save</a><br /><br />
 		Name: <input type="text" /><br /><br />
@@ -111,10 +175,10 @@
 	</div>
 	<div id="setting">
 		<h3>Setting</h3>
-		Select:	
 		<select>
 			<option value="Select">Select</option>
 		</select>
+		<br style="clear: both;"/>
 		<a class="btn">New</a>
 		<a class="btn">Save</a><br /><br />
 		Name: <input type="text" /><br /><br />
@@ -125,11 +189,6 @@
 
 
 <script>
-var a = {
-	get : function (id) {
-		return document.getElementById(id);
-	}
-};
 
 var scribe = {
 	settings : {
@@ -138,7 +197,11 @@ var scribe = {
 			project : 0, // index in data of project last opened
 			scene : 0, // indexe of scene in project last opened
 		},
-		tabs : ["project", "scene", "character", "setting"]
+		tabs : ["project", "scene", "character", "setting"],
+		tmpl : [
+			"<div id='{{id}}' class='outline_row'>{{content}}<br />{{summary}} <a class='btn'>^</a><a class='btn'>v</a></div>",
+			"",
+		]
 	},
 	init : function () {
 		// let's get things started!
@@ -192,10 +255,17 @@ var scribe = {
 	new_scene : function () {
 
 	},
+	word_count : function (s_id) {
+		// count number of words in a scene
+		var tmp = a.get(s_id).innerHTML;
+		tmp = tmp.split(" ");
+		return tmp.length;
+	},
 	data : [{
 		p_name : "default project",
 		p_createdate : 2016-07-13,
 		p_lastdate : 2016-07-14,
+		p_wordcount : 0,
 		p_scenes : [{
 			s_name : "scene 0",
 			s_lastdate : 2016-07-14,
@@ -213,6 +283,68 @@ var scribe = {
 		}]
 	}]
 };
+
+// andi 0.2 - mobile dev toolkit
+// Written by Kendall Purser
+// 2015.03.04
+
+	// ***catch browser errors and log them
+	window.onerror = function (msg, url, num, col, obj) {
+		a.log("ERR(" + num + ", " + col + ") " + msg + "<br />" + url + " " + obj);
+	};
+	
+	// ***JavaScript API***
+	var a = {
+		get : function (id) {
+			var temp_id = document.getElementById(id);
+			return temp_id;
+		},
+		apnd : function (id, x) {
+			a.get(id).innerHTML = get(id).innerHTML + x;
+		},
+		ppnd : function (id, x) {
+			a.get(id).innerHTML = x + get(id).innerHTML;
+		},
+		log : function (msg) {
+			a.show("log");
+			var temp = get("log").innerHTML;
+			a.get("log").innerHTML = temp + "<br /> " + msg;
+		},
+		css : function (id,key_val) {
+			for (i in key_val) {
+				a.get(id).style[i] = key_val[i];
+			}
+		},
+		show : function (id) {
+			a.css(id, {"display":"block"});
+		},
+		hide : function (id) {
+			a.css(id, {"display":"none"});
+		},
+
+		// localStorage functions
+		save : function (key, value) {
+			localStorage.setItem(key) = value;
+		},
+		read : function (key) {
+			return localStorage.getItem(key);
+		},
+		clear : function (key) {
+			localStorage.removeItem(key);
+		},
+
+		// responsive navigation
+		nav_state : 0,
+		menu_toggle : function () {
+				if (a.nav_state === 0) {
+					a.show("links");
+					a.nav_state = 1;
+				} else {
+					a.hide("links");
+					a.nav_state = 0;
+				}
+		}
+	};
 
 scribe.init();
 
