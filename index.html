@@ -337,7 +337,7 @@ var scribe = {
 			tmp_outline[num] = tmp_outline[num-1];
 			tmp_outline[num-1] = tmp_holder;
 			scribe.save_current_projects();
-			scribe.load_project(scribe.settings.default.project);
+			scribe.init();
 		}
 	},
 	scene_down : function (num) {
@@ -347,7 +347,7 @@ var scribe = {
 			tmp_outline[num] = tmp_outline[num + 1];
 			tmp_outline[num + 1] = tmp_holder;
 			scribe.save_current_projects();
-			scribe.load_project(scribe.settings.default.project);
+			scribe.init();
 		}		
 	},
 	save_project : function () {
@@ -438,7 +438,7 @@ var scribe = {
 			s_title : "Scene 0- Once upon a time",
 			s_purpose : "To begin the story and introduce the characters.",
 			s_characters : "John and Mary",
-			s_text : "Chapter 1 \r\n\r\n Once upon a time John and Mary sat on a bench in the park. It was a lovely spring day and the bees were buzzing around the tulips and crocuses."
+			s_text : "CHAPTER 1 \r\n\r\n Once upon a time John and Mary sat on a bench in the park. It was a lovely spring day and the bees were buzzing around the tulips and crocuses."
 		},{
 			s_lastdate : "2016-07-18",
 			s_title : "Scene 1- The plot thickens",
