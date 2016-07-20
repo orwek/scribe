@@ -155,7 +155,7 @@
 
 	<div id="scene">
 		<h3>Scene</h3> 
-		<select>
+		<select id="s_select">
 			<option value="Select">Select</option>
 		</select><br style="clear: both;"/>
 		<a class="btn">New</a>
@@ -245,6 +245,7 @@ var scribe = {
 		scribe.nav(scribe.settings.default.view);
 		scribe.load_current_projects();
 		scribe.load_print_view();
+		scribe.load_scene();
 	},
 	nav : function (id) {
 		scribe.view = id;
@@ -390,7 +391,18 @@ var scribe = {
 
 	// Setting Functions
 	load_scene : function () {
+		// load into both setting menus
+		var tmp_scenes = scribe.data[scribe.settings.default.project].p_scenes
+		var tmp_options = "";
 
+		for (i = 0; i < tmp_scenes.length; i += 1) {
+			if (i !== scribe.settings.default.scene) {
+				tmp_options += "<option value=\"" + i + "\" >" + tmp_scenes[i].s_title + "</option>\r\n";
+			} else {
+				tmp_options += "<option value=\"" + i + "\" selected>" + tmp_scenes[i].s_title + "</option>";
+			}
+		}
+		a.get("s_select").innerHTML = tmp_options;
 	},
 	save_scene : function () {
 
