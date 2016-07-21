@@ -13,7 +13,7 @@
 		margin: 5px;
 	}
 	#body {
-		width: 50%;
+		width: 75%;
 		margin: auto;
 	}
 	.btn {
@@ -94,9 +94,9 @@
 	}
 
 	#print_text{
-		width: 200%;
-		margin-left: -50%;
-		margin-top: -20%;
+		width: 130%;
+		margin-left: -15%;
+		margin-top: -10%;
 	}
 
 }
@@ -119,9 +119,6 @@
 
 <div id="body">
 
-
-
-
 	<div id="project">
 		<h3>Project</h3>
 		<select id="p_select" onchange="scribe.load_project(this.value);">
@@ -129,10 +126,12 @@
 		</select>
 		<br style="clear:both;" />
 		<a class="btn">New</a>
-		<a class="btn btn_select">Save</a>
+		<a class="btn btn_select" onclick="scribe.save_project();">Save</a>
 		<a class="btn">Import/Overwrite</a>
 		<a class="btn">Export Save File</a>
-		<a class="btn">Export Text</a><br /><br /> 
+		<a class="btn">Export Text</a>
+		<a class="btn" style="background-color: red;" onclick="scribe.purge_memory();">Purge Memory</a>
+		<br /><br /> 
 		
 		Title: <input type="text" id="p_title"/><br />
 		Author: <input type="text" id="p_author"/><br />
@@ -155,34 +154,34 @@
 
 	<div id="scene">
 		<h3>Scene</h3> 
-		<select id="s_select">
+		<select id="s_select" onchange="scribe.load_scene(this.value);">
 			<option value="Select">Select</option>
 		</select><br style="clear: both;"/>
 		<a class="btn">New</a>
-		<a class="btn">Save</a><br /><br />		
-		Title: <input type="text" /><br />
-		Objective: <input type="text" /><br />
-		Characters: <input type="text" /><br />
-		Date:<br />
-		Word Count: <span id="p_word_count">0</span><br /><br />
+		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />		
+		Title: <input type="text" id="s_title" /><br />
+		Purpose: <br /><textarea id="s_purpose" rows="3" cols="30"></textarea><br />
+		Characters: <input type="text" id="s_characters" /><br />
+		Date:<span id="s_lastdate"></span><br />
+		Word Count <a onclick="scribe.scene_word_count();">(update)</a>: <span id="s_word_count">0</span><br /><br />
 		<div class="left">
 			<h3>Text:</h3>
 			<br style="clear: both;" />
-			<textarea cols="35" rows="15"></textarea>
+			<textarea cols="55" rows="15" id="s_text"></textarea>
 		</div>
 		<div class="right">
 			<h3>Notes</h3>
-			<select>
-				<option value="Select">Character</option>
-				<option value="Select">Setting</option>
-				<option value="Select">Scene</option>
+			<select onchange="scribe.update_notes(this.value);">
+				<option value="Select" id="s_clist">Character</option>
+				<option value="Select" id="s_setlist">Setting</option>
+				<option value="Select" id="s_slist">Scene</option>
 			</select>
 			<select>
 				<option value="Select">Select</option>
 			</select> 
 			<br style="clear: both;" />
 
-			<textarea cols="35" rows="15"></textarea>
+			<textarea cols="55" rows="15" id="s_notes"></textarea>
 		</div>
 
 	</div>
@@ -193,10 +192,10 @@
 		</select>
 		<br style="clear: both;"/>
 		<a class="btn">New</a>
-		<a class="btn">Save</a><br /><br />
-		Name: <input type="text" /><br /><br />
+		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />
+		Name: <input type="text" id="c_name" /><br /><br />
 		Text: <br />
-		<textarea cols="40" rows="20"></textarea><br />
+		<textarea cols="50" rows="20" id="c_text"></textarea><br />
 	</div>
 	<div id="setting">
 		<h3>Setting</h3>
@@ -205,10 +204,10 @@
 		</select>
 		<br style="clear: both;"/>
 		<a class="btn">New</a>
-		<a class="btn">Save</a><br /><br />
-		Name: <input type="text" /><br /><br />
+		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />
+		Name: <input type="text" id="set_name"/><br /><br />
 		Text: <br />
-		<textarea cols="40" rows="20"></textarea><br />
+		<textarea cols="50" rows="20" id="set_text"></textarea><br />
 	</div>
 	<div id="print">
 		<h3>Print</h3>
@@ -228,28 +227,28 @@
 <script>
 
 var scribe = {
-	settings : {
-		default : {
-			view : "project", // project, scene, character, setting, print
-			project : 0, // index in data of project last opened
-			scene : 0 // index of scene in project last opened
-		},
-		tabs : ["project", "scene", "character", "setting", "print"],
-		template : [
-			"<div class='outline_row'>\r\n<h4>{{title}}</h4><br />\r\n {{objective}} \r\n<a class='btn' onclick=\"scribe.scene_up({{id_0}});\" alt=\"Move Up\">&uarr;</a>\r\n <a class='btn' onclick=\"scribe.scene_down({{id_1}});\" alt=\"Move Down\">&darr;</a>\r\n</div>"
-		]
+	default : {
+		view : "project", // project, scene, character, setting, print
+		project : 0, // index in data of project last opened
+		scene : 0, // index of scene in project last opened
+		character : "John", // key of character in project last opened
+		setting : "Park" // key of setting in project last opened
 	},
+	tabs : ["project", "scene", "character", "setting", "print"],
+	template : [
+		"<div class='outline_row'>\r\n<h4>{{title}}</h4><br />\r\n {{objective}} \r\n<a class='btn' onclick=\"scribe.scene_up({{id_0}});\" alt=\"Move Up\">&uarr;</a>\r\n <a class='btn' onclick=\"scribe.scene_down({{id_1}});\" alt=\"Move Down\">&darr;</a>\r\n</div>"
+	],
 	init : function () {
 		// let's get things started!
 		scribe.load_settings();
-		scribe.nav(scribe.settings.default.view);
+		scribe.nav(scribe.default.view);
 		scribe.load_current_projects();
 		scribe.load_print_view();
-		scribe.load_scene();
+		scribe.scene_word_count();
 	},
 	nav : function (id) {
 		scribe.view = id;
-		var tmp = scribe.settings.tabs;
+		var tmp = scribe.tabs;
 
 		for (i in tmp) {
 			a.get(tmp[i]).className = "hide";
@@ -258,18 +257,18 @@ var scribe = {
 
 		a.get(id).className = "show";
 		a.get(id + "_btn").className = "btn btn_select";
-		scribe.settings.default.view = id;
+		scribe.default.view = id;
 		scribe.save_settings();
 
 	},
 	save_settings : function () {
 		// parse through settings and turn into a string
-		a.save("scribe_settings", scribe.settings.default);
+		a.save("scribe_settings", scribe.default);
 	},
 	load_settings : function () {
 		// load settings from localStorage if available
 		if (a.read("scribe_settings") !== null){
-			scribe.settings.default = a.read("scribe_settings");
+			scribe.default = a.read("scribe_settings");
 		}
 	},
 	load_current_projects : function () {
@@ -282,7 +281,7 @@ var scribe = {
 		var tmp_options = "";
 
 		for (i = 0; i < scribe.data.length; i += 1) {
-			if (i !== scribe.settings.default.project) {
+			if (i !== scribe.default.project) {
 				tmp_options += "<option value=\"" + i + "\" >" + scribe.data[i].p_title + "</option>\r\n";
 			} else {
 				tmp_options += "<option value=\"" + i + "\" selected>" + scribe.data[i].p_title + "</option>";
@@ -291,22 +290,40 @@ var scribe = {
 		a.get("p_select").innerHTML = tmp_options;
 
 		// load default project
-		scribe.load_project(scribe.settings.default.project);
+		scribe.load_project(scribe.default.project);
 	},
 	save_current_projects : function () {
 		// save current projects to browser memory
 		a.save("scribe_data", scribe.data);
 	},
+	purge_memory : function () {
+		// if the browser is overwriting things for some reason
+		a.clear("scribe_data");
+		console.log("memory purged");
+		scribe.init();
+	},
+	get_date : function () {
+		var tmp_date = new Date(); 
+		return tmp_date.toLocaleString();
+	},
+
 	// Project Functions
 	load_project : function (value) {
 		// load the project view with the selected project
 		var tmp_p = scribe.data[value];
-		scribe.settings.default.project = value;
+		
+		// set default for scene, character, and setting if different than default project
+		if (scribe.default.project !== value) {
+			scribe.default.project = value;
+			scribe.default.scene = 0;
+			scribe.default.character = "";
+			scribe.default.setting = "";
+		}
+		
 		a.get("p_title").value = tmp_p.p_title;
 		a.get("p_author").value = tmp_p.p_author;
 		a.get("p_lastdate").innerHTML = tmp_p.p_lastdate;
 		a.get("p_scene_num").innerHTML = tmp_p.p_scenes.length;
-		
 
 		// calculate project wordcount
 		var tmp_wc = 0;
@@ -321,7 +338,7 @@ var scribe = {
 		var tmp_outline = "";
 		var i = 0;
 		for (i = 0; i < tmp_p.p_scenes.length; i += 1) {
-			var tmp_tmpl = scribe.settings.template[0];
+			var tmp_tmpl = scribe.template[0];
 			tmp_tmpl = tmp_tmpl.replace("{{title}}",tmp_p.p_scenes[i].s_title);
 			tmp_tmpl = tmp_tmpl.replace("{{objective}}",tmp_p.p_scenes[i].s_purpose);
 			tmp_tmpl = tmp_tmpl.replace("{{id_0}}",i);
@@ -330,9 +347,39 @@ var scribe = {
 		}
 		a.get("outline_stage").innerHTML = tmp_outline;
 
+		// load all other tabs
+		var tmp_p = scribe.data[scribe.default.project];
+		var tmp_s =	tmp_p.p_scenes[scribe.default.scene];
+		var tmp_c =	tmp_p.p_characters;
+		var tmp_set = tmp_p.p_settings;
+
+		a.get("s_title").value = tmp_s.s_title;
+		a.get("s_purpose").value = tmp_s.s_purpose;
+		a.get("s_characters").value = tmp_s.s_characters;
+		a.get("s_lastdate").innerHTML = tmp_s.s_lastdate;
+		a.get("s_text").value = tmp_s.s_text;
+		a.get("s_word_count").innerHTML = scribe.word_count(tmp_s.s_text);
+		scribe.load_project_scenes("s_select");
+		//scribe.load_project_scenes("");
+
+		// different data structure for characters and settings
+
+		for (i in tmp_c) {
+			if (tmp_c[i] === scribe.default.character) {
+				a.get("c_name").value = i;
+				a.get("c_text").value = tmp_c[i];
+			}
+		}
+
+		for (i in tmp_set) {
+			if (tmp_set[i] === scribe.default.setting) {
+				a.get("set_name").value = i;
+				a.get("set_text").value = tmp_set[i];
+			}
+		}
 	},
 	scene_up : function (num) {
-		var tmp_outline = scribe.data[scribe.settings.default.project].p_scenes;
+		var tmp_outline = scribe.data[scribe.default.project].p_scenes;
 		var tmp_holder = tmp_outline[num];
 		if (num !== 0){
 			tmp_outline[num] = tmp_outline[num-1];
@@ -342,7 +389,7 @@ var scribe = {
 		}
 	},
 	scene_down : function (num) {
-		var tmp_outline = scribe.data[scribe.settings.default.project].p_scenes;
+		var tmp_outline = scribe.data[scribe.default.project].p_scenes;
 		var tmp_holder = tmp_outline[num];
 		if (num !== tmp_outline.length - 1) {
 			tmp_outline[num] = tmp_outline[num + 1];
@@ -352,9 +399,36 @@ var scribe = {
 		}		
 	},
 	save_project : function () {
+		// load any changes from the UI to the project file
+		// saves everything currently open, so all save buttons call this function
+		var tmp_p = scribe.data[scribe.default.project];
+		var tmp_s =	tmp_p.p_scenes[scribe.default.scene];
+		var tmp_c =	tmp_p.p_characters;
+		var tmp_set = tmp_p.p_settings;
 
+		tmp_p.p_lastdate = scribe.get_date();
+		tmp_p.p_title = a.get("p_title").value;
+		tmp_p.p_author = a.get("p_author").value;
+
+		tmp_s.s_title = a.get("s_title").value;
+		tmp_s.s_purpose = a.get("s_purpose").value;
+		tmp_s.s_characters = a.get("s_characters").value;
+		tmp_s.s_lastdate = tmp_p.p_lastdate;
+		tmp_s.s_text = a.get("s_text").value;
+
+		// different data structure for characters and settings
+
+		tmp_c[a.get("c_name").value] = a.get("c_text").value;
+		tmp_set[a.get("set_name").value] = a.get("set_text").value;
+		
+		// save them and show them
+		scribe.save_current_projects();
+		scribe.init();
 	},
 	new_project : function () {
+		// blank the project and all form fields
+
+		// create a new project within the data object
 
 	},
 	import_project : function () {
@@ -368,53 +442,76 @@ var scribe = {
 	},
 	
 	// Scene Functions
-	load_scene : function () {
+	load_project_scenes : function (id) {
+		// load into both setting menus
+		var tmp_scenes = scribe.data[scribe.default.project].p_scenes
+		var tmp_options = "";
 
+		for (i = 0; i < tmp_scenes.length; i += 1) {
+			if (i != scribe.default.scene) {
+				tmp_options += "<option value=\"" + i + "\" >" + tmp_scenes[i].s_title + "</option>\r\n";
+			} else {
+				tmp_options += "<option value=\"" + i + "\" selected>" + tmp_scenes[i].s_title + "</option>\r\n";
+			}
+		}
+		a.get(id).innerHTML = tmp_options;
 	},
-	save_scene : function () {
+	load_scene : function (s_id) {
+		// save project, change default scene, update ui
+		
+		scribe.default.scene = s_id;
+
+		var tmp_p = scribe.data[scribe.default.project];
+		var tmp_s =	tmp_p.p_scenes[scribe.default.scene];
+
+		a.get("s_title").value = tmp_s.s_title;
+		a.get("s_purpose").value = tmp_s.s_purpose;
+		a.get("s_characters").value = tmp_s.s_characters;
+		a.get("s_lastdate").innerHTML = tmp_s.s_lastdate;
+		a.get("s_text").value = tmp_s.s_text;
+		a.get("s_word_count").innerHTML = scribe.word_count(tmp_s.s_text);
+	},
+	delete_scene : function () {
+		// splice 1 at s_id
 
 	},
 	new_scene : function () {
+		// generate new s_id and blank scene UI
 
+	},
+	scene_word_count : function () {
+		a.get("s_text").onkeyup = function () {
+			scribe.save_settings();
+			scribe.save_project();
+		}
 	},
 
 	// Character Functions
-	load_scene : function () {
+	load_character : function () {
 
 	},
-	save_scene : function () {
+	delete_character : function () {
 
 	},
-	new_scene : function () {
+	new_character : function () {
 
 	},
 
 	// Setting Functions
-	load_scene : function () {
-		// load into both setting menus
-		var tmp_scenes = scribe.data[scribe.settings.default.project].p_scenes
-		var tmp_options = "";
-
-		for (i = 0; i < tmp_scenes.length; i += 1) {
-			if (i !== scribe.settings.default.scene) {
-				tmp_options += "<option value=\"" + i + "\" >" + tmp_scenes[i].s_title + "</option>\r\n";
-			} else {
-				tmp_options += "<option value=\"" + i + "\" selected>" + tmp_scenes[i].s_title + "</option>";
-			}
-		}
-		a.get("s_select").innerHTML = tmp_options;
+	load_setting : function () {
+		
 	},
-	save_scene : function () {
+	delete_setting : function () {
 
 	},
-	new_scene : function () {
+	new_setting : function () {
 
 	},
 
 	// Print Functions
 	load_print_view : function () {
 		var tmp_print = "";
-		var tmp_project = scribe.data[scribe.settings.default.project];
+		var tmp_project = scribe.data[scribe.default.project];
 
 		tmp_print += tmp_project.p_title + "<br /><br />" + tmp_project.p_author + "<br />" + tmp_project.p_lastdate + "<br /><br /><p>";
 		// loop through all the scenes and smash them together to display on the page.
