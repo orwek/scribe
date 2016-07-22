@@ -13,16 +13,18 @@
 		margin: 5px;
 	}
 	#body {
-		width: 75%;
-		margin: auto;
+		width: 100%;
+		padding: 0px;
+		margin: 0px 7px;
 	}
 	.btn {
-		background-color: #e7e7e7;
+		background-color: #a7a7a7;
 		color: #000000;
 		border-radius: 8px;
-		padding: 5px;
-		margin: 10px;
+		padding: 3px 5px;
+		margin: 10px 3px;
 		cursor: pointer;
+		font-size: 10px;
 	}
 	.btn_select, .btn:hover {
 		background-color: #000000;
@@ -36,12 +38,12 @@
 	}
 
 	#navbar {
-		height: 20px;
+		height: 10px;
 		background-color: #000000;
 		color: #ffffff;
 		width: auto;
-		margin-bottom: 20px;
-		padding: 10px;
+		margin-bottom: 0px;
+		padding: 5px 10px 10px;
 	}
 	#menu_button {
 		float: right;
@@ -64,41 +66,81 @@
 	}
 
 	h3 {
-		float:left;
+		font-size: 18.72px !important;
+		margin: 0px 5px 5px 0px;
 	}
 
-	select {
-		margin: 20px 0px 0px 10px;
+	select, input, textarea {
+		margin: 0px 0px 10px 0px;
+		font-size: 12px;
 	}
 	.left {
 		float: left;
-		width: 45%;
-		border: 1px solid #000000;
+		width: 30%;
+		height: 280px;
 		padding: 10px;
+		margin: 0px;
+		/*
+		border: 1px solid #000000;
+		*/
+		font-size: 12px;
+		margin: -10px 0px -10px -10px;
+		background-color: lightblue;		
 	}
 	.right {
-		float: right;
-		width: 45%;
+		float: left;
+		width: 66.9%;
+		height: 289px;
+		padding: 10px 10px 0px 10px;
+		margin: 0px;
+		/*
 		border: 1px solid #000000;
-		padding: 10px;
+		*/
+		margin: -10px -10px -10px 0px;
+		background-color: lightblue;
 	}
 	#print_text {
 		padding: 10px;
 		border: 1px solid #e7e7e7;
 	}
 
+	.left-column, .right-column {
+		float: left;
+		width: 23% !important;
+		height: 280px !important;
+		border: 1px solid #000000;
+		padding: 10px;
+		background-color: #e7e7e7;
+	}
+
+	.center-column {
+		float: left;
+		width: 48% !important;
+		height: 280px !important;
+		border: 1px solid #000000;
+		padding: 10px;
+	}
+
+	.h3_left h3 {
+		float: left;
+	}
+
 @media print {
 	
-	#navbar, h3, a {
+	#navbar, #project, #scene, #character, #setting, #outline, h3, a {
 		display: none;
 	}
 
 	#print_text{
-		width: 130%;
-		margin-left: -15%;
+		
+		width: 200%;
+		margin-left: -5%;
 		margin-top: -10%;
 	}
 
+	.center-column {
+		border: 0px solid #000000;
+	}
 }
 
 </style>
@@ -109,28 +151,26 @@
 	Scribe 0.1
 	<div style="float: right;">
 	<!-- tabs -->
-<a class="btn" id="project_btn" onclick="scribe.nav('project');">Project</a>
-<a class="btn" id="scene_btn" onclick="scribe.nav('scene');">Scene</a>
-<a class="btn" id="character_btn" onclick="scribe.nav('character');">Character</a>
-<a class="btn" id="setting_btn" onclick="scribe.nav('setting');">Setting</a>
-<a class="btn" id="print_btn" onclick="scribe.nav('print');">Print</a>
+	&copy; 2016 Kendall Purser
 	</div>
 </div>
 
 <div id="body">
 
-	<div id="project">
+	<div id="project" class="left-column h3_left">
 		<h3>Project</h3>
 		<select id="p_select" onchange="scribe.load_project(this.value);">
 			<option value="Select">Select</option>
 		</select>
 		<br style="clear:both;" />
-		<a class="btn">New</a>
+		<a class="btn" onclick="scribe.new_project();">New</a>
 		<a class="btn btn_select" onclick="scribe.save_project();">Save</a>
+		<a class="btn" style="background-color: red;" onclick="scribe.purge_memory();">Purge Memory</a>
+		<br />
 		<a class="btn">Import/Overwrite</a>
 		<a class="btn">Export Save File</a>
 		<a class="btn">Export Text</a>
-		<a class="btn" style="background-color: red;" onclick="scribe.purge_memory();">Purge Memory</a>
+		
 		<br /><br /> 
 		
 		Title: <input type="text" id="p_title"/><br />
@@ -138,8 +178,43 @@
 		Date: <span id="p_lastdate">0</span><br />
 		Number of Scenes: <span id="p_scene_num">0</span><br />
 		Word Count: <span id="p_word_count">0</span><br />
-		<hr />
+	</div>
 
+	<div id="scene" class="center-column">
+		<div class="left">
+			<h3>Scene</h3> 
+		<select id="s_select" onchange="scribe.load_scene(this.value);">
+			<option value="Select">Select</option>
+		</select><br style="clear: both;"/>
+		<a class="btn" onclick="scribe.new_scene();">New</a>
+		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />		
+		Title: <br /><input type="text" id="s_title" /><br />
+		Purpose: <br /><textarea id="s_purpose" rows="3" cols="25"></textarea><br />
+		Characters: <br /><input type="text" id="s_characters" /><br />
+		Date:<span id="s_lastdate"></span><br />
+		Word Count : <span id="s_word_count">0</span>
+		</div>
+		<div class="right">
+			<h3>Text:</h3>
+			<br style="clear: both;" />
+			<textarea cols="60" rows="16" id="s_text"></textarea>
+		</div>
+
+	</div>
+	<div id="character" class="right-column h3_left">
+		<h3>Character</h3>
+		<select>
+			<option value="Select">Select</option>
+		</select>
+		<br style="clear: both;"/>
+		<a class="btn" onclick="scribe.new_character();">New</a>
+		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />
+		Name: <input type="text" id="c_name" /><br />
+		Text: <br />
+		<textarea cols="40" rows="11" id="c_text"></textarea>
+	</div>
+	<!-- row 2 -->
+	<div id="outline" class="left-column">
 		<h3>Outline</h3>
 		<br style="clear: both;" />
 		<div id="outline_stage">
@@ -151,75 +226,24 @@
 			</div>
 		</div>
 	</div>
-
-	<div id="scene">
-		<h3>Scene</h3> 
-		<select id="s_select" onchange="scribe.load_scene(this.value);">
-			<option value="Select">Select</option>
-		</select><br style="clear: both;"/>
-		<a class="btn">New</a>
-		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />		
-		Title: <input type="text" id="s_title" /><br />
-		Purpose: <br /><textarea id="s_purpose" rows="3" cols="30"></textarea><br />
-		Characters: <input type="text" id="s_characters" /><br />
-		Date:<span id="s_lastdate"></span><br />
-		Word Count <a onclick="scribe.scene_word_count();">(update)</a>: <span id="s_word_count">0</span><br /><br />
-		<div class="left">
-			<h3>Text:</h3>
-			<br style="clear: both;" />
-			<textarea cols="55" rows="15" id="s_text"></textarea>
-		</div>
-		<div class="right">
-			<h3>Notes</h3>
-			<select onchange="scribe.update_notes(this.value);">
-				<option value="Select" id="s_clist">Character</option>
-				<option value="Select" id="s_setlist">Setting</option>
-				<option value="Select" id="s_slist">Scene</option>
-			</select>
-			<select>
-				<option value="Select">Select</option>
-			</select> 
-			<br style="clear: both;" />
-
-			<textarea cols="55" rows="15" id="s_notes"></textarea>
-		</div>
-
-	</div>
-	<div id="character">
-		<h3>Character</h3>
-		<select>
-			<option value="Select">Select</option>
-		</select>
+	<div id="print" class="center-column h3_left">
+		<h3>Print</h3><a class="btn" onclick="window.print();">Print</a>
 		<br style="clear: both;"/>
-		<a class="btn">New</a>
-		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />
-		Name: <input type="text" id="c_name" /><br /><br />
-		Text: <br />
-		<textarea cols="50" rows="20" id="c_text"></textarea><br />
+		<div id="print_text">
+
+		</div>
 	</div>
-	<div id="setting">
+	<div id="setting" class="right-column h3_left">
 		<h3>Setting</h3>
 		<select>
 			<option value="Select">Select</option>
 		</select>
 		<br style="clear: both;"/>
-		<a class="btn">New</a>
+		<a class="btn" onclick="scribe.new_setting();">New</a>
 		<a class="btn" onclick="scribe.save_project();">Save</a><br /><br />
-		Name: <input type="text" id="set_name"/><br /><br />
+		Name: <input type="text" id="set_name"/><br />
 		Text: <br />
-		<textarea cols="50" rows="20" id="set_text"></textarea><br />
-	</div>
-	<div id="print">
-		<h3>Print</h3>
-		<br style="clear: both;"/>
-		<!--
-		<a class="btn" onclick="scribe.load_print_view();">Load/Refresh</a>
-		-->
-		<a class="btn" onclick="window.print();">Print</a>
-		<br /><br />
-		<div id="print_text">
-
-		</div>
+		<textarea cols="40" rows="11" id="set_text"></textarea><br />
 	</div>
 </div>
 
@@ -241,7 +265,7 @@ var scribe = {
 	init : function () {
 		// let's get things started!
 		scribe.load_settings();
-		scribe.nav(scribe.default.view);
+		//scribe.nav(scribe.default.view);
 		scribe.load_current_projects();
 		scribe.load_print_view();
 		scribe.scene_word_count();
@@ -426,10 +450,31 @@ var scribe = {
 		scribe.init();
 	},
 	new_project : function () {
-		// blank the project and all form fields
-
 		// create a new project within the data object
-
+		scribe.default.project = scribe.data.length;
+		scribe.data.push({
+			p_title : "",
+			p_author : "",
+			p_createdate : scribe.get_date(),
+			p_lastdate : scribe.get_date(),
+			p_wordcount : 0,
+			p_scenes : [{
+				s_lastdate : scribe.get_date(),
+				s_title : "",
+				s_purpose : "",
+				s_characters : "",
+				s_text : ""
+			}],
+			p_characters : [{
+				"John" : "Tall, dark, handsome!"
+			}],
+			p_settings : [{
+				"Park" : "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."
+			}]
+		});
+		scribe.save_
+		scribe.save_current_projects();
+		scribe.init();
 	},
 	import_project : function () {
 
