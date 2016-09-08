@@ -12,7 +12,7 @@ Scribe is free. It works on all operating systems running a modern browser. (It 
 
 In this section you will learn how to use each tab within Scribe. The tabs on the left are for managing and writing the project. The tabs on the right are for notes and reference material.
 
-***Project-*** On this pane you can create, import, export and delete projects. You can also purge your data from the browser's memory. This will wipe out all projects, so be careful! It is better to delete one project than to lose them all!
+***Project-*** On this pane you can create, import, export and delete projects. You can also purge your data from the browser's memory. This will wipe out all projects, so be careful! It is better to delete one project than to lose them all! You can also purge Scribe's settings if it is not behaving correctly after an update.
 
 ***Outline-*** On this pane you can move scenes around within your project to see where they fit best. If you click on the scene title it will open in the Scene pane.
 
