@@ -18,7 +18,7 @@ In this section you will learn how to use each tab within Scribe. The tabs on th
 
 ***Scene-*** This tab is where you will do all of your writing. The title of your scene will appear in the Outline tab. Every scene should have a purpose, so type your purpose before you start the scene. Knowing what characters you plan to have in the scene can be helpful when you come back to type a scene after you have outlined your story. Scribe saves as you type, to show this the date and word count update automatically.
 
-***Print-*** The purpose of the print tab is to help you edit for continuity. If someone has brown eyes in Chapter 1 they better have brown eyes in Chapter 27. Scroll to the part of the story you need to reference while keeping your place in the current scene in the left tab. You can also view changes you make to your scene order in the Outline tab. Currently you can only print the entire project.
+***Preview-*** The purpose of the preview tab is to help you edit for continuity. If someone has brown eyes in Chapter 1 they better have brown eyes in Chapter 27. Scroll to the part of the story you need to reference while keeping your place in the current scene in the left tab. You can also view changes you make to your scene order in the Outline tab. Currently you can only print the entire project.
 
 ***Character-*** Type up notes about your characters in the Character tab. This way all your notes are in the same place and you can view them on the same screen where you are typing. Have a reference image from the web? Paste the link in your notes so you can refer back to it when you start writing.
 
