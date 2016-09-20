@@ -290,19 +290,19 @@
 	<div id="notes" class="pane">
 		<h3>Notes</h3>
 		Character: 
-		<select id="c_select" onchange="scribe.load_note(this.value);">
+		<select id="c_select" onclick="scribe.load_note(this.value);">
 			<option value="Select">Select</option>
 		</select><br /> 
 		Setting: 
-		<select id="set_select" onchange="scribe.load_note(this.value);">
+		<select id="set_select" onclick="scribe.load_note(this.value);">
 			<option value="Select">Select</option>
 		</select> <br />
 		Item: 
-		<select id="i_select" onchange="scribe.load_note(this.value);">
+		<select id="i_select" onclick="scribe.load_note(this.value);">
 			<option value="Select">Select</option>
 		</select><br />
 		Notes: 
-		<select id="n_select" onchange="scribe.load_note(this.value);">
+		<select id="n_select" onclick="scribe.load_note(this.value);">
 			<option value="Select">Select</option>
 		</select>
 		<br style="clear: both;"/>
@@ -722,11 +722,9 @@ var scribe = {
 
 		for (i in tmp_note) {
 			var tmp_opt = "";
-			if (tmp_note[i][0] != scribe.default.note) {
-				tmp_opt = "<option value=\"" + i + "\" >" + tmp_note[i][0] + "</option>\r\n";
-			} else {
-				tmp_opt = "<option value=\"" + i + "\" selected>" + tmp_note[i][0] + "</option>\r\n";
-			}
+			
+			tmp_opt = "<option value=\"" + i + "\" >" + tmp_note[i][0] + "</option>\r\n";
+			
 			// Put select options in the correct category
 			if (tmp_note[i][1] === "Character") {
 				Character_opt += tmp_opt;
@@ -741,6 +739,7 @@ var scribe = {
 				Note_opt += tmp_opt;
 			}
 		}
+
 		// output finished select options
 		a.get("c_select").innerHTML = Character_opt;
 		a.get("set_select").innerHTML = Setting_opt;
