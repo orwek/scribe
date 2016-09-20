@@ -578,12 +578,12 @@ var scribe = {
 				s_characters : "",
 				s_text : ""
 			}],
-			p_characters : [{
+			p_characters : {
 				"John" : "Tall, dark, handsome!"
-			}],
-			p_settings : [{
+			},
+			p_settings : {
 				"Park" : "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."
-			}]
+			}
 		});
 		scribe.save_settings();
 		scribe.save_current_projects();
@@ -707,14 +707,15 @@ var scribe = {
 
 	// Character Functions
 	load_project_characters : function () {
-		var tmp_char = scribe.data[scribe.default.project].p_characters
+		var tmp_char = scribe.data[scribe.default.project].p_characters;
 		var tmp_options = "";
 
-		for (i in tmp_char) {
-			if (i != scribe.default.character) {
-				tmp_options += "<option value=\"" + i + "\" >" + i + "</option>\r\n";
+		for (j in tmp_char) {
+
+			if (j != scribe.default.character) {
+				tmp_options += "<option value=\"" + j + "\" >" + j + "</option>\r\n";
 			} else {
-				tmp_options += "<option value=\"" + i + "\" selected>" + i + "</option>\r\n";
+				tmp_options += "<option value=\"" + j + "\" selected>" + j + "</option>\r\n";
 			}
 		}
 		a.get("c_select").innerHTML = tmp_options;
@@ -749,6 +750,7 @@ var scribe = {
 		scribe.data[scribe.default.project].p_characters[tmp_name] = "";
 		scribe.default.character = tmp_name;
 		scribe.save_current_projects();
+		scribe.init();
 	},
 
 	// Setting Functions
