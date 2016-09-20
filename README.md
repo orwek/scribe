@@ -33,6 +33,7 @@ If you encounter errors after an update click "Purge Settings" then refresh the 
 If the Project tab isn't visible for some reason, the following commands can be typed into the console for the same effect: 
 
 a.clear("scribe_settings");
+
 a.clear("scribe_data");
 
 
