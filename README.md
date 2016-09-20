@@ -20,14 +20,14 @@ In this section you will learn how to use each tab within Scribe. The tabs on th
 
 ***Preview-*** The purpose of the preview tab is to help you edit for continuity. If someone has brown eyes in Chapter 1 they better have brown eyes in Chapter 27. Scroll to the part of the story you need to reference while keeping your place in the current scene in the left tab. You can also view changes you make to your scene order in the Outline tab. Currently you can only print the entire project.
 
-***Character-*** Type up notes about your characters in the Character tab. This way all your notes are in the same place and you can view them on the same screen where you are typing. Have a reference image from the web? Paste the link in your notes so you can refer back to it when you start writing.
-
-***Setting-*** Type descriptions for the places your characters visit or hear about. This will keep your writing consistent as you refer back to it. Again any links from the web can be pasted here so you can keep track of them.
+***Notes-*** Type up notes about your characters, settings, items, and any other odd notes in the Notes tab. This way all your notes are in the same place and you can view them on the same screen where you are typing. Have a reference image from the web? Paste the link in your notes so you can refer back to it when you start writing.
 
 # Limitations
 
 Scribe is designed for 1000 pixel wide screens, so it may not work on your phone.
 
-Scribe runs in your browser, so your data is stored in the browser you visit the page with. You must use the same browser on the same computer in order to access your data. You can export your data file and transfer it via Dropbox or thumbdrive to another computer if you would like to take your work with you, this is also not a bad idea for backing up your data should your browser cache get wiped.
+Scribe runs in your browser, so your data is stored in the browser you visit the page with. You must use the same browser on the same computer in order to access your data. You can export your project file and transfer it via Dropbox or thumbdrive to another computer if you would like to take your work with you, this is also not a bad idea for backing up your data should your browser cache get wiped.
+
+If you encounter errors after an update click "Purge Settings" then refresh the page and the errors should clear. This may need to be done multiple times. If this doesn't work, export your project files and "Purge Memory" followed by "Purge Settings", then refresh the page and import your project files again. (I know this is painful, but at the moment it is the only way to reset everything after an update.)
 
 
