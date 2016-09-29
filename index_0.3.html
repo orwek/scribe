@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title> Scribe 0.4</title>
+<title> Scribe 0.3</title>
 <style type="text/css">
 
 	body {
@@ -51,7 +51,6 @@
 		float: left;
 		padding-top: 8px;
 		margin-top: -30px;
-		z-index: 99;
 	}
 
 	#nav_right {
@@ -193,7 +192,8 @@
 <body>
 
 <div id="navbar">
-	Scribe 0.4	
+	Scribe 0.3
+	
 	<div style="float: right; z-index: 20; position: relative;">
 	<!-- tabs -->
 	<a href="http://www.github.com/orwek/scribe" target="_blank" style="color: #ffffff; text-decoration: none; cursor: pointer !important;">
@@ -225,8 +225,13 @@
 		<a class="btn" onclick="scribe.new_project();">New</a>
 		<a class="btn btn_select" onclick="scribe.save_project();">Save</a>
 		<a class="btn" onclick="scribe.delete_project();">Delete</a>
-		<a class="btn" style="background-color: pink;" onclick="scribe.purge_memory();">Purge Memory</a>
-		<a class="btn" style="background-color: lightblue;" onclick="scribe.purge_settings();">Purge Settings</a>
+		<a class="btn" style="background-color: red;" onclick="scribe.purge_memory();">Purge Memory</a>
+		<a class="btn" style="background-color: red;" onclick="a.clear('scribe_settings');">Purge Settings</a>
+		<br />
+		<a class="btn" onclick="scribe.import_project();">Import/Overwrite</a>
+		<a class="btn" onclick="scribe.export_project();">Export Save File</a>
+		<a class="btn" onclick="scribe.export_text();">Export Text</a>
+		
 		<br /><br /> 
 		
 		Title: <input type="text" id="p_title"/><br />
@@ -234,20 +239,6 @@
 		Date: <span id="p_lastdate">0</span><br />
 		Number of Scenes: <span id="p_scene_num">0</span><br />
 		Word Count: <span id="p_word_count">0</span><br />
-		<hr />
-		<h3>Import/Export</h3>
-		
-		<p style="font-size: 12px;">
-			To import a project, please paste your data file below and click the "Import/Overwrite" button. If a project with the same name exists in this browser it will be overwritten. Otherwise it will create a new project.
-		</p><p style="font-size: 12px;">
-			To export your project data file, select the project in the list above then click the "Export Save File" button. Copy and paste the text into a seperate file to create a back up or to import into another browser running Scribe.
-		</p><p style="font-size: 12px;">
-			To export the complete text of your project (scenes only, no notes), select the project in the list above and click the "Export Text" button. Then copy and paste the text into a traditional word processor to format for publication.
-		</p>
-		<textarea id="import_export" cols="64" rows="10"></textarea><br />
-		<a class="btn" onclick="scribe.import_project();">Import/Overwrite</a>
-		<a class="btn" onclick="scribe.export_project();">Export Save File</a>
-		<a class="btn" onclick="scribe.export_text();">Export Text</a>
 	</div>
 	<div id="outline" class="pane">
 		<h3>Outline</h3>
@@ -350,6 +341,7 @@ var scribe = {
 		// let's get things started!
 		scribe.load_settings();
 		//scribe.nav(scribe.default.view);
+		scribe.data_check();
 		scribe.load_current_projects();
 		scribe.left_nav(scribe.default.left_nav);
 		scribe.right_nav(scribe.default.right_nav);
@@ -386,23 +378,20 @@ var scribe = {
 	},
 	data_check : function () {
 		// check for pre 0.3 data structure and convert to new data structure
-		for (k = 0; k < scribe.data.length; k += 1){
-			var tmp_data = scribe.data[k];
-			var tmp_notes = [];
-			if(tmp_data.hasOwnProperty("p_characters")) {
-				for (i in tmp_data.p_characters) {
-					tmp_notes.push([i,"Character",tmp_data.p_characters[i]]); 
-				}
-				for (i in tmp_data.p_settings) {
-					tmp_notes.push([i,"Setting",tmp_data.p_settings[i]]);
-				}
-				tmp_data.p_notes = tmp_notes;
-				delete tmp_data.p_characters;
-				delete tmp_data.p_settings;
-				scribe.save_current_projects();
+		var tmp_data = scribe.data[scribe.default.project];
+		var tmp_notes = [];
+		if(tmp_data.p_characters !== undefined) {
+			for (i in tmp_data.p_characters) {
+				tmp_notes.push([i,"Character",tmp_data.p_characters[i]]); 
 			}
+			for (i in tmp_data.p_settings) {
+				tmp_notes.push([i,"Setting",tmp_data.p_settings[i]]);
+			}
+			tmp_data.p_notes = tmp_notes;
+			delete tmp_data.p_characters;
+			delete tmp_data.p_settings;
+			scribe.save_current_projects();
 		}
-		
 	},
 	save_settings : function () {
 		// parse through settings and turn into a string
@@ -445,9 +434,6 @@ var scribe = {
 		a.clear("scribe_settings");
 		console.log("memory purged");
 		scribe.init();
-	},
-	purge_settings : function () {
-		a.clear('scribe_settings');
 	},
 	get_date : function () {
 		var tmp_date = new Date(); 
@@ -569,6 +555,7 @@ var scribe = {
 				if (scribe.default.project > scribe.data.length-1){
 					scribe.default.project = 0;
 					scribe.save_settings();
+					
 				}
 				scribe.init();
 			}	
@@ -604,7 +591,7 @@ var scribe = {
 		scribe.init();
 	},
 	import_project : function () {
-		var tmp_p = a.get("import_export").value;
+		var tmp_p = prompt("Please paste your data file below. If a project with the same name exists in this browser it will be overwritten. Otherwise it will create a new project.", "Paste project here.");
 		tmp_p = JSON.parse(tmp_p);
 		var no_match = 0;
 		for (i = 0; i < scribe.data.length; i += 1) {
@@ -627,14 +614,14 @@ var scribe = {
 		}
 	},
 	export_project : function () {
-		a.get("import_export").value = JSON.stringify(scribe.data[scribe.default.project]);
+		var tmp_p = prompt("Please copy/paste the following into a text document to create a back up data file of your work.", JSON.stringify(scribe.data[scribe.default.project]));
 	},
 	export_text : function () {
 		var tmp_text = "";
 		for (i = 0; i < scribe.data[scribe.default.project].p_scenes.length; i += 1){
 			tmp_text += scribe.data[scribe.default.project].p_scenes[i].s_text;
 		}
-		a.get("import_export").value = tmp_text;
+		var tmp_p = prompt("Please copy/paste the following to export the body text of your project.", tmp_text);
 
 	},
 	
@@ -804,17 +791,6 @@ var scribe = {
 		for (i = 0; i < tmp_project.p_scenes.length; i += 1){
 			tmp_print += tmp_project.p_scenes[i].s_text + "\r\n";
 		}
-		// Double Spaces
-		while (tmp_print.lastIndexOf("\r\n\r\n\r\n") !== -1){
-			tmp_print = tmp_print.replace("\r\n\r\n\r\n","</p><p>&nbsp;</p><p>");
-		}
-		while (tmp_print.lastIndexOf("\r\r\r") !== -1){
-			tmp_print = tmp_print.replace("\r\r\r","</p><p>&nbsp;</p><p>");
-		}
-		while (tmp_print.lastIndexOf("\n\n\n") !== -1){
-			tmp_print = tmp_print.replace("\n\n\n","</p><p>&nbsp;</p><p>");
-		}
-		// Add paragraphs
 		while (tmp_print.lastIndexOf("\r\n") !== -1){
 			tmp_print = tmp_print.replace("\r\n","</p><p>");
 		}
