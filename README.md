@@ -30,4 +30,10 @@ Scribe runs in your browser, so your data is stored in the browser you visit the
 
 If you encounter errors after an update click "Purge Settings" then refresh the page and the errors should clear. This may need to be done multiple times. If this doesn't work, export your project files and "Purge Memory" followed by "Purge Settings", then refresh the page and import your project files again. (I know this is painful, but at the moment it is the only way to reset everything after an update.)
 
+If the Project tab isn't visible for some reason, the following commands can be typed into the console for the same effect: 
+
+a.clear("scribe_settings");
+
+a.clear("scribe_data");
+
 
