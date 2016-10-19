@@ -596,12 +596,13 @@ var scribe = {
 				["Mary","Character", "The woman of John's dreams"],
 				["Park","Setting", "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."],
 				["Rose","Item","A beautiful pink thornless rose."],
-				["Things to think about","Note","Scene 1: Should I make it rain on them while they are in the park?"]
+				["Brainstorm","Note","What would happen if two people met in a park?"]
 			]
 		});
 		scribe.save_settings();
 		scribe.save_current_projects();
-		scribe.init();
+		scribe.init(); 
+		// This is not loading the new project like it should. Previous project is still loaded in Scenes, preview, and notes.
 	},
 	import_project : function () {
 		var tmp_p = a.get("import_export").value;
@@ -702,6 +703,10 @@ var scribe = {
 	},
 	scene_word_count : function () {
 		a.get("s_text").onkeyup = function () {
+			scribe.save_settings();
+			scribe.save_project();
+		}
+		a.get("note_text").onkeyup = function () {
 			scribe.save_settings();
 			scribe.save_project();
 		}
