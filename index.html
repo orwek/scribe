@@ -576,33 +576,36 @@ var scribe = {
 	},
 	new_project : function () {
 		// create a new project within the data object
-		var tmp_title = prompt("What would you like to name your new project?", "New Project" + scribe.data.length); 
-		scribe.default.project = scribe.data.length;
-		scribe.data.push({
-			p_title : tmp_title,
-			p_author : "",
-			p_createdate : scribe.get_date(),
-			p_lastdate : scribe.get_date(),
-			p_wordcount : 0,
-			p_scenes : [{
-				s_lastdate : scribe.get_date(),
-				s_title : "blank scene",
-				s_purpose : "",
-				s_characters : "",
-				s_text : ""
-			}],
-			p_notes : [ // [name,category,text] 
-				["John","Character","Tall, dark, handsome!"],
-				["Mary","Character", "The woman of John's dreams"],
-				["Park","Setting", "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."],
-				["Rose","Item","A beautiful pink thornless rose."],
-				["Brainstorm","Note","What would happen if two people met in a park?"]
-			]
-		});
-		scribe.save_settings();
-		scribe.save_current_projects();
-		scribe.init(); 
-		// This is not loading the new project like it should. Previous project is still loaded in Scenes, preview, and notes.
+		var tmp_title = prompt("What would you like to name your new project?", "New Project" + scribe.data.length);
+			if (tmp_title != null) {
+			scribe.default.project = scribe.data.length;
+			scribe.default.scene = 0;
+			scribe.data.push({
+				p_title : tmp_title,
+				p_author : "",
+				p_createdate : scribe.get_date(),
+				p_lastdate : scribe.get_date(),
+				p_wordcount : 0,
+				p_scenes : [{
+					s_lastdate : scribe.get_date(),
+					s_title : "blank scene",
+					s_purpose : "",
+					s_characters : "",
+					s_text : ""
+				}],
+				p_notes : [ // [name,category,text] 
+					["John","Character","Tall, dark, handsome!"],
+					["Mary","Character", "The woman of John's dreams"],
+					["Park","Setting", "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."],
+					["Rose","Item","A beautiful pink thornless rose."],
+					["Brainstorm","Note","What would happen if two people met in a park?"]
+				]
+			});
+			scribe.save_settings();
+			scribe.save_current_projects();
+			scribe.init(); 
+			// This is not loading the new project like it should. Previous project is still loaded in Scenes, preview, and notes.
+		}
 	},
 	import_project : function () {
 		var tmp_p = a.get("import_export").value;
@@ -687,18 +690,19 @@ var scribe = {
 	new_scene : function () {
 		// generate new s_id and blank scene UI
 		var tmp_title = prompt("What would you like to name your new scene?", "Scene " + scribe.data[scribe.default.project].p_scenes.length);
-
-		scribe.data[scribe.default.project].p_scenes.push({
-			s_lastdate : scribe.get_date(),
-			s_title : tmp_title,
-			s_purpose : "",
-			s_characters : "",
-			s_text : ""
-		});
-		scribe.save_current_projects();
-		scribe.default.scene = scribe.data[scribe.default.project].p_scenes.length-1;
-		scribe.save_settings();
-		scribe.init();
+		if (tmp_title != null) {
+			scribe.data[scribe.default.project].p_scenes.push({
+				s_lastdate : scribe.get_date(),
+				s_title : tmp_title,
+				s_purpose : "",
+				s_characters : "",
+				s_text : ""
+			});
+			scribe.save_current_projects();
+			scribe.default.scene = scribe.data[scribe.default.project].p_scenes.length-1;
+			scribe.save_settings();
+			scribe.init();
+		}
 
 	},
 	scene_word_count : function () {
