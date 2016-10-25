@@ -577,7 +577,7 @@ var scribe = {
 	new_project : function () {
 		// create a new project within the data object
 		var tmp_title = prompt("What would you like to name your new project?", "New Project" + scribe.data.length);
-			if (tmp_title != null) {
+		if (tmp_title != null) {
 			scribe.default.project = scribe.data.length;
 			scribe.default.scene = 0;
 			scribe.data.push({
@@ -703,7 +703,6 @@ var scribe = {
 			scribe.save_settings();
 			scribe.init();
 		}
-
 	},
 	scene_word_count : function () {
 		a.get("s_text").onkeyup = function () {
