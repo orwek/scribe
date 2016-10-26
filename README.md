@@ -43,9 +43,15 @@ a.clear("scribe_data");
 ---
 
 Distraction Free Mode on the Scene tab
+
 Duplicate Project (so you can create a "snapshot")
+
 Save on Exit
+
 Export Notes
+
 Export Summary (Uses the "Purpose" field on the Scene tab)
+
 Default notes for new projects only includes "Brainstorm"
+
 A link to a Random Name Generator on the Notes tab 
