@@ -14,7 +14,7 @@ In this section you will learn how to use each tab within Scribe. The tabs on th
 
 ***Project-*** On this tab you can create, import, export, duplicate, and delete projects. You can also purge Scribe's settings if it is not behaving correctly after an update. You can also purge your data from the browser's memory. This will wipe out all projects, so be careful! It is better to delete one project than to lose them all!  In the Import/Export section you can also export notes, and a summary which combines all the "Purpose" fields from the scenes in the project. 
 
-***Outline-*** On this tab you can move scenes around within your project to see where they fit best. Used in conjunction with the Preview tab this can be a very powerful organizational tool. If you click on the scene title in the Outline, it will open in the Scene tab.
+***Outline-*** On this tab you can move scenes around within your project to see where they fit best. Each scene shows the title and word count for that scene, when the wordcount is at 0 it is also highlighted in red to help you see what still needs worked on. Used in conjunction with the Preview tab this can be a very powerful organizational tool. If you click on the scene title in the Outline, it will open in the Scene tab. 
 
 ***Scene-*** This is the tab where you will do all of your writing. The title of your scene will appear in the Outline tab, and the Purpose field will be used to generate your summary in the Project tab. Every scene should have a purpose in your story, so add it before you start writing the scene. Knowing what characters you plan to have in the scene can be helpful when you come back to type a scene after you have outlined your story. Scribe saves as you type in the text field, to show this the date and word count update automatically. To save the other fields, use the "Save" button. The Focus button makes the Scene tab go full screen, so you can focus on that scene without other distractions.
 
@@ -57,6 +57,10 @@ Export Summary (Uses the "Purpose" field on the Scene tab)
 Default notes for new projects only includes "Brainstorm"
 
 A link to a Random Name Generator on the Notes tab 
+
+Added the Donate Button
+
+Outline now shows word count for that scene and turns red when the wordcount is 0
 
 0.4
 ---
