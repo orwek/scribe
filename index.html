@@ -220,6 +220,10 @@
 	right: 0px;
 }
 
+.red_back {
+	background-color: pink;
+}
+
 </style>
 </head>
 <body>
@@ -396,7 +400,7 @@ var scribe = {
 	tabs_left : ["project", "outline", "scene"],
 	tabs_right : ["preview", "notes"],
 	template : [
-		"<div class='outline_row'>\r\n<a onclick='scribe.load_scene({{id_0}});'>{{title}}</a><br />\r\n<a class='btn' onclick=\"scribe.scene_up({{id_1}});\" alt=\"Move Up\">&uarr;</a>\r\n <a class='btn' onclick=\"scribe.scene_down({{id_2}});\" alt=\"Move Down\">&darr;</a>\r\n</div>"
+		"<div class='outline_row {{styles}}'>\r\n<a onclick='scribe.load_scene({{id_0}});'>{{title}}</a> ({{wordcount}} words)<br />\r\n<a class='btn' onclick=\"scribe.scene_up({{id_1}});\" alt=\"Move Up\">&uarr;</a>\r\n <a class='btn' onclick=\"scribe.scene_down({{id_2}});\" alt=\"Move Down\">&darr;</a>\r\n</div>"
 	],
 	init : function () {
 		// let's get things started!
@@ -577,6 +581,14 @@ var scribe = {
 			tmp_tmpl = tmp_tmpl.replace("{{id_0}}",i);
 			tmp_tmpl = tmp_tmpl.replace("{{id_1}}",i);
 			tmp_tmpl = tmp_tmpl.replace("{{id_2}}",i);
+
+			// wordcount
+			tmp_tmpl = tmp_tmpl.replace("{{wordcount}}",scribe.word_count(tmp_p.p_scenes[i].s_text));
+			if (scribe.word_count(tmp_p.p_scenes[i].s_text) === 0){
+				tmp_tmpl = tmp_tmpl.replace("{{styles}}","red_back");
+			} else {
+				tmp_tmpl = tmp_tmpl.replace("{{styles}}","");
+			}
 			tmp_outline += tmp_tmpl;
 		}
 		a.get("outline_stage").innerHTML = tmp_outline;
