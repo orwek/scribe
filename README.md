@@ -55,3 +55,62 @@ Export Summary (Uses the "Purpose" field on the Scene tab)
 Default notes for new projects only includes "Brainstorm"
 
 A link to a Random Name Generator on the Notes tab 
+
+0.4
+---
+
+Bug Fixes
+
+Notes save as you type
+
+If you cancel a new note or project it no longer creates a "null" object
+
+When you create a new project it loads all tabs with the new project properly
+
+Fixed the Import/Export feature
+
+Allowed blank lines if you triple space
+
+Fixed several bugs that caused the program to crash when you refreshed the page
+
+0.3
+---
+
+New data structure for notes
+
+Notes now open from a dropdown menu, rather than separate tabs
+
+Create new projects
+
+Purge Settings button
+
+0.2
+---
+
+New UI with 2 sets of tabs
+
+More friendly use of space for different sizes of monitors
+
+Save settings
+
+Help button to access this documentation
+
+Outline tab reworked
+
+0.1
+---
+
+Full Screen UI (Widescreen only)
+
+Save to browser memroy
+
+Data structure
+
+Import/Export functionality
+
+Outline view
+
+Character and Setting sections
+
+Project and Scene sections
+
