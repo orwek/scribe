@@ -12,15 +12,15 @@ Scribe is free. It works on all operating systems running a modern browser. (It 
 
 In this section you will learn how to use each tab within Scribe. The tabs on the left are for managing and writing the project. The tabs on the right are for notes and reference material.
 
-***Project-*** On this tab you can create, import, export and delete projects. You can also purge your data from the browser's memory. This will wipe out all projects, so be careful! It is better to delete one project than to lose them all! You can also purge Scribe's settings if it is not behaving correctly after an update.
+***Project-*** On this tab you can create, import, export, duplicate, and delete projects. You can also purge your data from the browser's memory. This will wipe out all projects, so be careful! It is better to delete one project than to lose them all! You can also purge Scribe's settings if it is not behaving correctly after an update. In the Import/Export section you can also export notes, and a summary which combines all the "Purpose" fields in the project. 
 
 ***Outline-*** On this tab you can move scenes around within your project to see where they fit best. If you click on the scene title it will open in the Scene tab.
 
-***Scene-*** This tab is where you will do all of your writing. The title of your scene will appear in the Outline tab. Every scene should have a purpose, so type your purpose before you start the scene. Knowing what characters you plan to have in the scene can be helpful when you come back to type a scene after you have outlined your story. Scribe saves as you type, to show this the date and word count update automatically.
+***Scene-*** This tab is where you will do all of your writing. The title of your scene will appear in the Outline tab. Every scene should have a purpose, so type your purpose before you start the scene, this field can be used to export a summary of your project on the Project tab. Knowing what characters you plan to have in the scene can be helpful when you come back to type a scene after you have outlined your story. Scribe saves as you type, to show this the date and word count update automatically.
 
 ***Preview-*** The purpose of the preview tab is to help you edit for continuity. If someone has brown eyes in Chapter 1 they better have brown eyes in Chapter 27. Scroll to the part of the story you need to reference while keeping your place in the current scene in the left tab. You can also view changes you make to your scene order in the Outline tab. Currently you can only print the entire project.
 
-***Notes-*** Type up notes about your characters, settings, items, and any other odd notes in the Notes tab. This way all your notes are in the same place and you can view them on the same screen where you are typing. Have a reference image from the web? Paste the link in your notes so you can refer back to it when you start writing.
+***Notes-*** Type up notes about your characters, settings, items, and any other odd notes in the Notes tab. This way all your notes are in the same place and you can view them on the same screen where you are typing. Have a reference image from the web? Paste the link in your notes so you can refer back to it when you start writing. If you are having trouble comming up with unique names, there is a link in the Tools section for a Random Name Generator.
 
 # Limitations
 
@@ -37,3 +37,15 @@ a.clear("scribe_settings");
 a.clear("scribe_data");
 
 
+# Changelog
+
+0.5
+---
+
+Distraction Free Mode on the Scene tab
+Duplicate Project (so you can create a "snapshot")
+Save on Exit
+Export Notes
+Export Summary (Uses the "Purpose" field on the Scene tab)
+Default notes for new projects only includes "Brainstorm"
+A link to a Random Name Generator on the Notes tab 
