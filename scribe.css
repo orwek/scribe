@@ -1,0 +1,276 @@
+
+	body {
+		margin: 0px;
+		padding: 0px;
+		background-image: url(https://cdn.morguefile.com/imageData/public/files/r/revwarheart/10/l/1414391237k1mz6.jpg);
+		background-size: cover;
+	}
+	p {
+		text-indent: 20px;
+		margin: 5px;
+	}
+
+	a {
+		cursor: pointer;
+	}
+/* Fonts */
+	.serif {
+		font-family: Georgia, serif;
+	}
+
+	.san-serif {
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	.monospace {
+		font-family: "Courier New", Courier, monospace;
+	}
+
+	.script {
+		font-family: "Comic Sans MS", cursive, sans-serif;
+	}
+
+	.font10 {
+		font-size: 10px;
+	}
+	.font12 {
+		font-size: 12px;
+	}
+	.font14 {
+		font-size: 14px;
+	}
+	.font16 {
+		font-size: 16px;
+	}
+
+	.tool_box {
+		width: 280px;
+		font-size: 14px;
+		border-radius: 10px;
+		padding: 10px;
+		background-color: #e7e7e7;
+		float: left;
+		margin: 10px;
+	}
+
+	.tool_box .btn {
+		font-size: 14px;
+		height: 14px;
+	}
+
+	.btn {
+		background-color: #a7a7a7;
+		color: #000000;
+		border-radius: 8px;
+		padding: 3px 5px;
+		margin: 10px 3px;
+		cursor: pointer;
+		font-size: 10px;
+	}
+	.btn_select, .btn:hover {
+		background-color: #000000;
+		color: #e7e7e7;
+	}
+	.hide {
+		display: none;
+	}
+	.show {
+		display: block;
+	}
+
+	#navbar {
+		height: 10px;
+		background-color: #000000;
+		color: #ffffff;
+		width: auto;
+		margin-bottom: 0px;
+		padding: 5px 10px 10px;
+	}
+
+	#nav {
+		position: absolute;
+		top: 2px;
+		left: 15%;
+	}
+
+	#menu_button {
+		float: right;
+		width: 25px;
+	}
+
+	#outline_stage {
+		overflow-y : scroll;
+		height: 500px;
+		padding: 10px;
+	}
+
+	.outline_row {
+		border: 1px solid #666666;
+		padding: 5px;
+	}
+
+	.outline_row .btn {
+		float: right;
+		margin-top: -20px;
+	}
+
+	h4 {
+		margin-top: 0px;
+		margin-bottom: 0px;
+		cursor: pointer;
+	}
+
+	h3 {
+		font-size: 18.72px !important;
+		margin: 0px 5px 5px 0px;
+	}
+
+	select, input, textarea {
+		margin: 0px 0px 10px 0px;
+		font-size: 12px;
+	}
+
+	#s_select {
+		position: absolute;
+		top: 7px;
+		left: 60px;
+	}
+/* Large area styles */
+	#body {
+		width: 1000px;
+		padding: 0px;
+		margin: 0px auto;
+	}
+	.pane {
+		width: 1000px;
+		height: 590px;
+		padding: 5px;
+		border: 1px solid #000000;
+		float: left;
+		background-color: #ffffff;
+		position: relative;
+	}
+	.left {
+		float: left;
+		width: 30%;
+		height: 280px;
+		padding: 10px;
+		margin: 0px;
+		/*
+		border: 1px solid #000000;
+		*/
+		font-size: 12px;
+		margin: -10px 0px -10px -10px;
+		background-color: lightblue;		
+	}
+	.right {
+		float: left;
+		width: 66.9%;
+		height: 289px;
+		padding: 10px 10px 0px 10px;
+		margin: 0px;
+		/*
+		border: 1px solid #000000;
+		*/
+		margin: -10px -10px -10px 0px;
+		background-color: lightblue;
+	}
+	#print_text {
+		padding: 10px;
+		border: 1px solid #e7e7e7;
+		overflow-y: scroll;
+		height: 480px;
+	}
+
+	.left-column, .right-column {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		width: 25% !important;
+		height: 120px !important;
+		border: 1px solid #000000;
+		padding: 10px;
+		background-color: #e7e7e7;
+	}
+
+	.left-column {
+		right: 250px;
+		width: 40% !important;
+	}
+
+	.center-column {
+		float: left;
+		width: 48% !important;
+		height: 280px !important;
+		border: 1px solid #000000;
+		padding: 10px;
+	}
+
+	.h3_left h3 {
+		float: left;
+	}
+
+@media print {
+	
+	#navbar, #project, #scene, #character, #setting, #outline, h3, a {
+		display: none;
+	}
+	.pane {
+		width: 488px;
+		height: 600px;
+		padding: 5px;
+		border: none;
+		float: left;
+		background-color: #ffffff;
+	}
+
+	#print_text{
+		width: 300%;
+		margin-left: -5%;
+		margin-top: -10%;
+		padding: 10px;
+		height: auto;
+		overflow-y: auto;
+		font-size: 14pt;
+	}
+
+	.center-column {
+		border: 0px solid #000000;
+	}
+}
+
+/* focus mode styles */
+.focus {
+	position: absolute;
+	width: auto;
+	height: 600px;
+	z-index: 100;
+	background-color: #ffffff;
+}
+
+.focus h3 {
+	float: left;
+}
+
+.focus .left-column, .focus .right-column {
+	width: 210px !important;
+	height: 80px !important;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+}
+
+.focus .left-column {
+	right: 240px !important;
+	width: 440px !important;
+}
+
+.focus .focus_1 {
+	position: absolute;
+	top: 10px;
+	right: 0px;
+}
+
+.red_back {
+	background-color: pink;
+}
