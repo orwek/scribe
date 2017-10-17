@@ -10,6 +10,7 @@ var scribe = {
 		note : 0, // note in project last opened
 		nav : "project",
 		backimg : "https://cdn.morguefile.com/imageData/public/files/r/revwarheart/10/l/1414391237k1mz6.jpg",
+		night : 0, // 0 = white back, black text; 1 = Black back, white text
 		sprint_word_count : 0, // set a benchmark to compare the project word count to
 		split : 0 // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
 	},
@@ -55,6 +56,11 @@ var scribe = {
 		scribe.save_settings();
 		scribe.init();
 		console.log(tmp_backimg);
+	},
+	night : function () {
+		// add night styles if 0
+
+		// remove night styles if 1
 	},
 		// change scene view
 	scene_mode : function (num_in) {
@@ -173,7 +179,10 @@ var scribe = {
 			note : 0, // note in project last opened
 			nav : "project",
 			backimg : "https://cdn.morguefile.com/imageData/public/files/r/revwarheart/10/l/1414391237k1mz6.jpg",
+			night : 0, // 0 = white back, black text; 1 = Black back, white text
+			sprint_word_count : 0, // set a benchmark to compare the project word count to
 			split : 0 // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
+
 		};
 		a.clear('scribe_settings');
 		scribe.default = tmp_default;

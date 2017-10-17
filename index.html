@@ -215,14 +215,16 @@
 	<!-- settings -->
 	<div id="settings" class="pane">
 		<h3>Settings</h3>
-		
-		<div style="width: 45%; background-color: #e7e7e7; padding: 10px">
-		<h4>View</h4><br />		
-		<b>Background</b><br />
-		Image URL: <input type="text" id="web_background" value="" /> OR <br />
-		Color HEX: <input type="text" id="hex_background" value="#ffffff;" /><br />	
-		<input type="button" value="Set Background" onclick="scribe.back_img();" /><br />	
-		<h3>Font</h3>
+		<h4>VIEW</h4>
+		<hr />	
+		<div class="tool_box">	
+			<b>Background</b><br />
+			Image URL: <input type="text" id="web_background" value="" /> OR <br />
+			Color HEX: <input type="text" id="hex_background" value="#ffffff;" /><br />	
+			<input type="button" value="Set Background" onclick="scribe.back_img();" /><br />	
+		</div>
+		<div class="tool_box">
+			<b>Font</b><br />
 			<select id="font_size">
 				<option value="10px">10px</option>
 				<option value="12px">12px</option>
@@ -236,26 +238,30 @@
 				<option class="script" value="script">Script</option>
 			</select>
 			<input type="button" value="Update Font" onclick="scribe.update_font();" /><br />	
-
 		</div>
-		<br />
+		<div class="tool_box">
+			<b>Theme</b><br /><br />
+			<input type="button" value="Toggle Night Mode" onclick="scribe.night();" /><br />
+		</div>
+		<br style="clear: both;" />
 		<h4> DANGER ZONE</h4>
 		<hr />
-			Click this button if Scribe is not working correctly. This only clears the settings within Scribe and does not affect your data file.
-		<br />
-		<br />
-		<a class="btn" style="background-color: lightblue; font-size: 16px; margin: 10px;" onclick="scribe.purge_settings();">
-			Purge Settings
-		</a>
-		<hr />
-			Click this button ONLY if Scribe is not working properly, AND you have exported your data file. This button WILL delete everything inlcuding any project files that you have saved in this browser. BE CAREFUL!
-		<br />
-		<br />
-		<a class="btn" style="background-color: pink; font-size: 16px; margin: 10px;" onclick="scribe.purge_memory();">
-			Purge Memory
-		</a>
-		<hr />
-		
+			<div class="tool_box">
+				Click this button if Scribe is not working correctly. This only clears the settings within Scribe and does not affect your data file.
+				<br />
+				<br />
+				<a class="btn" style="background-color: lightblue; font-size: 16px; margin: 10px;" onclick="scribe.purge_settings();">
+					Purge Settings
+				</a>
+			</div>
+			<div class="tool_box">
+				Click this button ONLY if Scribe is not working properly, AND you have exported your data file. This button WILL delete everything inlcuding any project files that you have saved in this browser. BE CAREFUL!
+				<br />
+				<br />
+				<a class="btn" style="background-color: pink; font-size: 16px; margin: 10px;" onclick="scribe.purge_memory();">
+					Purge Memory
+				</a>
+			</div>		
 	</div>
 </div>
 
