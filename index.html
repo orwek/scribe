@@ -52,17 +52,17 @@
 		Author: <input type="text" id="p_author"/><br />
 		Date: <span id="p_lastdate">0</span><br />
 		Number of Scenes: <span id="p_scene_num">0</span><br />
-		Word Count: <span id="p_word_count">0</span><br />
+		Current Word Count: <span id="p_word_count">0</span><br />
+		Project Word Count Goal: <input type="text" id="p_wordcount_goal" value="50,000" /><input type="button" value="Set Goal" onclick="scribe.set_goal();" /><br />
 		<hr style="width: 45%; float: left;" />
 
 		<div style="width: 45%">
 		<h3> Automatic Chapter Generation</h3>
-			Project Word Count Goal: <input type="text" id="p_goal" value="50,000" /><br />
 			Number of Chapters: <input type="text" id="p_ch_goal" value="25"/><br />
- 			<a class="btn" onclick="scribe.generate_chapters">Generate Chapters</a>
+ 			<a class="btn" onclick="scribe.generate_chapters();">Generate Chapters</a>
 			
 		</div>
-		<div style="width: 45%; height: 400px; position: absolute; top: 10px; right: 10px; background-color: #e7e7e7; padding: 10px;">
+		<div id="p_import" style="">
 			<h3>Import/Export</h3>
 			
 			<p style="font-size: 12px;">
@@ -105,11 +105,11 @@
 		<!--
 		<a id="focus" class="btn" style="background-color: lightblue;" onclick="scribe.focus_mode();">Focus Mode</a>
 		-->		
-		<div class="left-column">
+		<div id="s_left" class="left-column">
 			Title: <input type="text" id="s_title" size="29" /><br />
 			Purpose: <br /><textarea id="s_purpose" rows="5" cols="50"></textarea>
 		</div>
-		<div class="right-column">
+		<div id="s_right" class="right-column">
 			Characters: <br /><input type="text" id="s_characters" size="29" /><br />
 			Date: <span id="s_lastdate"></span><br />
 			<div style="float: left; font-weight: bold;">
@@ -134,7 +134,7 @@
 		<h3>Preview</h3><a class="btn" onclick="window.print();">Print</a>
 		<br style="clear: both;"/>
 		<br style="clear: both;"/>
-		<div id="print_text">
+		<div id="print_text" class="monospace">
 
 		</div>
 	</div>
@@ -142,33 +142,14 @@
 <!-- notes -->
 	<div id="notes" class="pane">
 		<h3>Notes</h3>
-			
-		Character:
-		<select id="c_select" onclick="scribe.load_note(this.value);">
-			<option value="Select">Select</option>
-		</select><br /> 
-		Setting: 
-		<select id="set_select" onclick="scribe.load_note(this.value);">
-			<option value="Select">Select</option>
-		</select> <br />
-		Item: 
-		<select id="i_select" onclick="scribe.load_note(this.value);">
-			<option value="Select">Select</option>
-		</select><br />
-		Notes: 
+		<a class="btn" onclick="scribe.new_note();">New</a>
+		<a class="btn btn_select" onclick="scribe.save_project();">Save</a>
+		<a class="btn" onclick="scribe.duplicate_note();">Duplicate</a>
+		<a class="btn" onclick="scribe.delete_note();">Delete</a><br /><br />
 		<select id="n_select" onclick="scribe.load_note(this.value);">
 			<option value="Select">Select</option>
 		</select>
-		<br style="clear: both;"/>
-		<b>New: </b>
-		<a class="btn" onclick="scribe.new_note('Character');">Character</a>
-		<a class="btn" onclick="scribe.new_note('Setting');">Setting</a>
-		<a class="btn" onclick="scribe.new_note('Item');">Item</a>
-		<a class="btn" onclick="scribe.new_note('Note');">Note</a>
-		<br />
-		<a class="btn btn_select" onclick="scribe.save_project();">Save</a>
-		<a class="btn" onclick="scribe.delete_note();">Delete</a><br /><br />
-		Name: <input type="text" id="note_name" /> <span id="note_cat" style="color: #999999;"></span><br />
+		Name: <input type="text" id="note_name" /> Category: <input id="note_cat" style=""></ /span><br />
 		<h3>Text:</h3>
 		<textarea cols="130" rows="20" id="note_text"></textarea>
 	</div>
@@ -212,7 +193,7 @@
 		    <a class="btn" href="https://www.pexels.com/" target ="_blank"> Pexels</a><br />
 	    </div>
 	</div>
-	<!-- settings -->
+<!-- settings -->
 	<div id="settings" class="pane">
 		<h3>Settings</h3>
 		<h4>VIEW</h4>
@@ -226,12 +207,12 @@
 		<div class="tool_box">
 			<b>Font</b><br />
 			<select id="font_size">
-				<option value="10px">10px</option>
-				<option value="12px">12px</option>
-				<option value="14px">14px</option>
-				<option value="16px">16px</option>
+				<option value="font10">10px</option>
+				<option value="font12">12px</option>
+				<option value="font14">14px</option>
+				<option value="font16">16px</option>
 			</select>
-			<select id="font_size">
+			<select id="font_family">
 				<option class="serif" value="serif">Serif</option>
 				<option class="san-serif" value="san-serif">San-Serif</option>
 				<option class="monospace" value="monospace">Monospace</option>
@@ -240,7 +221,7 @@
 			<input type="button" value="Update Font" onclick="scribe.update_font();" /><br />	
 		</div>
 		<div class="tool_box">
-			<b>Theme</b><br /><br />
+			<b>Theme</b><br />
 			<input type="button" value="Toggle Night Mode" onclick="scribe.night();" /><br />
 		</div>
 		<br style="clear: both;" />

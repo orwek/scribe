@@ -1,5 +1,5 @@
 // Scribe 0.6
-// Kendall Purser 11/03/2016
+// Kendall Purser 11/03/2016-10/31/2017
 //
 
 var scribe = {
@@ -12,9 +12,11 @@ var scribe = {
 		backimg : "https://cdn.morguefile.com/imageData/public/files/r/revwarheart/10/l/1414391237k1mz6.jpg",
 		night : 0, // 0 = white back, black text; 1 = Black back, white text
 		sprint_word_count : 0, // set a benchmark to compare the project word count to
-		split : 0 // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
+		split : 0, // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
+		font_size: "font12", // saved font size
+		font_family: "monospace" // saved font family
 	},
-	tabs : ["project", "outline", "scene", "notes", "preview", "tools", "settings" ], //"setting"
+	tabs : ["project", "outline", "scene", "notes", "preview", "tools", "settings" ],
 	template : [
 		"<div class='outline_row {{styles}}'>\r\n<a onclick='scribe.load_scene({{id_0}});'>{{title}}</a> ({{wordcount}} words)<br />\r\n<a class='btn' onclick=\"scribe.scene_up({{id_1}});\" alt=\"Move Up\">&uarr;</a>\r\n <a class='btn' onclick=\"scribe.scene_down({{id_2}});\" alt=\"Move Down\">&darr;</a>\r\n</div>"
 	],
@@ -34,9 +36,44 @@ var scribe = {
 		} else {
 			document.getElementById("s_background").style.backgroundImage= "none";
 			document.getElementById("s_background").style.backgroundColor= scribe.default.backimg;
-			console.log(scribe.default.backimg);
 		}
+
+		// set fonts for text areas
+		a.get("font_size").value = scribe.default.font_size;
+		a.get("font_family").value = scribe.default.font_family;
+		a.get("note_text").className = scribe.default.font_size + " " + scribe.default.font_family;
+		a.get("s_text").className = scribe.default.font_size + " " + scribe.default.font_family;
+		a.get("s_purpose").className = scribe.default.font_size + " " + scribe.default.font_family;
 		
+		// night mode
+		scribe.night_toggle();
+
+		// activate ctrl+s
+		scribe.keyboard_save();
+	},
+	keyboard_save : function () {
+		var isCtrl = false;
+		document.onkeyup=function(e){
+		    if(e.keyCode == 17) isCtrl=false;
+		}
+
+		document.onkeydown=function(e){
+		    if(e.keyCode == 17) isCtrl=true;
+		    if(e.keyCode == 83 && isCtrl == true) {
+		        //run code for CTRL+S -- ie, save!
+		        scribe.save_project();
+		        return false;
+		    }
+		}
+	},
+// Settings
+	update_font : function () {
+		// get changes & save to defaults
+		scribe.default.font_size = a.get("font_size").value;
+		scribe.default.font_family = a.get("font_family").value;
+		// update ui
+		scribe.save_settings();
+		scribe.init();
 	},
 	back_img : function () {
 		// check values from the form
@@ -55,15 +92,60 @@ var scribe = {
 		scribe.default.backimg = tmp_backimg;
 		scribe.save_settings();
 		scribe.init();
-		console.log(tmp_backimg);
 	},
 	night : function () {
-		// add night styles if 0
-
-		// remove night styles if 1
+		// add night styles if 0, remove night styles if 1
+		if (scribe.default.night == 1) {
+			scribe.default.night = 0;
+		} else {
+			scribe.default.night = 1;
+		}
+		scribe.save_settings();
+		scribe.init();
 	},
-		// change scene view
+	night_toggle : function () {
+		if (scribe.default.night == 1) {
+			for (i=0; i < scribe.tabs.length; i += 1){
+				a.get(scribe.tabs[i]).style="color: #ffffff; background-color: #000000;";
+			}
+			var elements = document.getElementsByClassName("tool_box")
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.backgroundColor= "#252525";
+            }
+            a.get("p_import").style.backgroundColor = "#252525";
+            a.get("s_left").style.backgroundColor = "#252525";
+            a.get("s_right").style.backgroundColor = "#252525";
+
+            a.get("note_text").style.backgroundColor = "#000000";
+			a.get("s_text").style.backgroundColor = "#000000";
+			a.get("s_purpose").style.backgroundColor = "#000000";
+			a.get("print_text").style.backgroundColor = "#000000";
+
+			a.get("note_text").style.color = "#ffffff";
+			a.get("s_text").style.color = "#ffffff";
+			a.get("s_purpose").style.color = "#ffffff";
+			a.get("print_text").style.color = "#ffffff";
+		} else {
+			for (i=0; i < scribe.tabs.length; i += 1){
+				a.get(scribe.tabs[i]).style = "";
+			}
+			var elements = document.getElementsByClassName("tool_box")
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.backgroundColor= "#e7e7e7" ;
+            }
+            a.get("p_import").style = "";
+            a.get("s_left").style = "";
+            a.get("s_right").style = "";
+            a.get("note_text").style = "";
+			a.get("s_text").style = "";
+			a.get("s_purpose").style = "";
+			a.get("print_text").style = "";
+		}
+		
+	},
+	// change scene view
 	scene_mode : function (num_in) {
+
 		if (scribe.default.split === 1) {
 			// 0 = turn off focus mode
 			scribe.default.split = 0;
@@ -166,10 +248,40 @@ var scribe = {
 	},
 	purge_memory : function () {
 		// if the browser is overwriting things for some reason
+		var tmp_data = [{
+			p_title : "The Default Project",
+			p_author : "Kendall Purser",
+			p_createdate : "2016-07-13",
+			p_lastdate : "2016-07-14",
+			p_wordcount : 0,
+			p_wordcount_goal: 50000,
+			sprint_wordcount : 0,
+			p_scenes : [{
+				s_lastdate : "2016-07-14",
+				s_title : "Scene 0- Once upon a time",
+				s_purpose : "To begin the story and introduce the characters.",
+				s_characters : "John and Mary",
+				s_text : "CHAPTER 1 \r\n\r\n Once upon a time John and Mary sat on a bench in the park. It was a lovely spring day and the bees were buzzing around the tulips and crocuses."
+			},{
+				s_lastdate : "2016-07-18",
+				s_title : "Scene 1- The plot thickens",
+				s_purpose : "To develop the characters more.",
+				s_characters : "John and Mary",
+				s_text : "John said, \"Why don\'t we go and get a lemonade?\" \r\n Mary said, \"I\'d rather have a sandwich.\""
+			}],
+			p_notes : [ // [name,category,text] 
+				["John","Character","Tall, dark, handsome!",0],
+				["Mary","Character", "The woman of John's dreams",1],
+				["Park","Setting", "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches.",2],
+				["Rose","Item","A beautiful pink thornless rose.",3],
+				["Things to think about","Note","Scene 1: Should I make it rain on them while they are in the park?",4]
+			]
+		}]
 		a.clear("scribe_data");
+		a.save("scribe_data", tmp_data);
 		a.clear("scribe_settings");
 		console.log("memory purged");
-		scribe.init();
+		scribe.purge_settings();
 	},
 	purge_settings : function () {
 		var tmp_default = {
@@ -221,6 +333,7 @@ var scribe = {
 		tmp_p.p_wordcount = tmp_wc;
 		a.get("p_word_count").innerHTML = tmp_p.p_wordcount;
 		a.get("p_word_count2").innerHTML = tmp_p.p_wordcount;
+		a.get("p_wordcount_goal").value = tmp_p.p_wordcount_goal;
 		a.get("sprint_word_count").innerHTML = tmp_p.p_wordcount - scribe.default.sprint_word_count;
 
 		// load scenes into outline
@@ -233,12 +346,21 @@ var scribe = {
 			tmp_tmpl = tmp_tmpl.replace("{{id_1}}",i);
 			tmp_tmpl = tmp_tmpl.replace("{{id_2}}",i);
 
-			// wordcount
-			tmp_tmpl = tmp_tmpl.replace("{{wordcount}}",scribe.word_count(tmp_p.p_scenes[i].s_text));
-			if (scribe.word_count(tmp_p.p_scenes[i].s_text) === 0){
+			// outline wordcount shading
+			var scene_wc = scribe.word_count(tmp_p.p_scenes[i].s_text);
+			
+			var sp_wc = scene_wc/(tmp_p.p_wordcount_goal/tmp_p.p_scenes.length);
+			tmp_tmpl = tmp_tmpl.replace("{{wordcount}}",scene_wc);
+			
+			if (sp_wc <= 0.33){
 				tmp_tmpl = tmp_tmpl.replace("{{styles}}","red_back");
+			} else if (sp_wc > 0.33 && sp_wc <= 0.66){
+				tmp_tmpl = tmp_tmpl.replace("{{styles}}","yellow_back");
+			} else if (sp_wc > 0.66 && sp_wc <= 0.99){
+				tmp_tmpl = tmp_tmpl.replace("{{styles}}","green_back");
 			} else {
-				tmp_tmpl = tmp_tmpl.replace("{{styles}}","");
+				//greater than 99%
+				tmp_tmpl = tmp_tmpl.replace("{{styles}}","blue_back");
 			}
 			tmp_outline += tmp_tmpl;
 		}
@@ -257,7 +379,7 @@ var scribe = {
 		scribe.load_project_scenes("s_select");
 		//scribe.load_project_scenes("");
 
-		// different data structure for characters and settings
+		// different data structure for notes
 
 		scribe.load_project_notes();
 		scribe.load_note(scribe.default.note);
@@ -304,6 +426,7 @@ var scribe = {
 		// different data structure for notes
 
 		tmp_n[scribe.default.note][0] = a.get("note_name").value;
+		tmp_n[scribe.default.note][1] = a.get("note_cat").value;
 		tmp_n[scribe.default.note][2] = a.get("note_text").value;
 		
 		// save them and show them
@@ -336,6 +459,7 @@ var scribe = {
 				p_createdate : scribe.get_date(),
 				p_lastdate : scribe.get_date(),
 				p_wordcount : 0,
+				p_wordcount_goal : 50000,
 				p_scenes : [{
 					s_lastdate : scribe.get_date(),
 					s_title : "blank scene",
@@ -364,9 +488,9 @@ var scribe = {
 		scribe.save_settings();
 		scribe.init();
 
-		// load the duplicate and change the title to include (copy)
+		// load the duplicate and change the title to include date stamp
 		tmp_project = scribe.data[scribe.default.project];
-		tmp_project.p_title = tmp_project.p_title + " (copy)";
+		tmp_project.p_title = prompt("Duplicate name?",tmp_project.p_title + " " +scribe.get_date());
 
 		// save changes and reload the entire project
 		scribe.save_current_projects();
@@ -405,7 +529,6 @@ var scribe = {
 			tmp_text += scribe.data[scribe.default.project].p_scenes[i].s_text;
 		}
 		a.get("import_export").value = tmp_text;
-
 	},
 	export_summary : function () {
 		var tmp_text = "";
@@ -427,6 +550,9 @@ var scribe = {
 		}
 		a.get("import_export").value = tmp_text;
 
+	},
+	set_goal : function () {		
+		scribe.data[scribe.default.project].p_wordcount_goal = a.get("p_wordcount_goal").value;
 	},
 	generate_chapters : function () {
 		// get vars from form
@@ -537,78 +663,111 @@ var scribe = {
 	// Note Functions
 	load_project_notes : function () {
 		var tmp_note = scribe.data[scribe.default.project].p_notes;
-		var tmp_opt = {
-			"Character" : "c_select",
-			"Setting" : "set_select",
-			"Item" : "i_select",
-			"Note" : "n_select"
-			};
-		var Character_opt="<option value='0'>Select</option>",
-		Setting_opt="<option value='0'>Select</option>",
-		Item_opt="<option value='0'>Select</option>",
-		Note_opt="<option value='0'>Select</option>";
+		var tmp_select="<option value='0'>Select</option> \r\n";
+		var tmp_cat = [];
+		var tmp_obj = {};
+		var tmp_alpha_array = [];
 
-		// allow blank lists
+		// ID Categories & Alphabatize them
+		for (i in tmp_note) {
+			if (tmp_cat.indexOf(tmp_note[i][1]) == -1){
+				tmp_cat[tmp_cat.length] = tmp_note[i][1];
+				tmp_obj[tmp_note[i][1]] = [];
+			}
+			tmp_obj[tmp_note[i][1]].push(tmp_note[i]);
+			tmp_obj[tmp_note[i][1]].sort();
+		}
+		tmp_cat = tmp_cat.sort();
+
+		for (i = 0; i < tmp_cat.length; i += 1) {
+			tmp_alpha_array = tmp_alpha_array.concat(tmp_obj[tmp_cat[i]]); 
+		}
+		scribe.data[scribe.default.project].p_notes = tmp_alpha_array;
+		tmp_note = tmp_alpha_array;
+		scribe.save_settings();
+
+		// sort notes by category (Had to do the above because NONE OF THESE WORK!)
+		//tmp_note = tmp_note.sort(function(cola,colb){return cola[1] - colb[1]}); // Alphabetize category
+		//tmp_note = tmp_note.sort(function(cola,colb){return cola[0] - colb[0]}); // Alphabetize notes in each category
+		//tmp_note = tmp_note.sort(); // only sorts 1st element in the array
+		
+		// write select list
 		if (tmp_note.length > 0){
-			for (i in tmp_note) {
-				var tmp_opt = "";
-				
-				tmp_opt = "<option value=\"" + i + "\" >" + tmp_note[i][0] + "</option>\r\n";
-				
-				// Put select options in the correct category
-				if (tmp_note[i][1] === "Character") {
-					Character_opt += tmp_opt;
+			// add note id if not present (backwards compatability)
+			for (i = 0; i < tmp_note.length; i += 1) {
+				if (tmp_note[i][3] == undefined) {
+					tmp_note[i][3] = i;
 				}
-				if (tmp_note[i][1] === "Setting") {
-					Setting_opt += tmp_opt;
-				}
-				if (tmp_note[i][1] === "Item") {
-					Item_opt += tmp_opt;
-				}
-				if (tmp_note[i][1] === "Note") {
-					Note_opt += tmp_opt;
-				}
+				var tmp_opt = "<option value=\"" + tmp_note[i][3] + "\" >" + tmp_note[i][1] + "-" + tmp_note[i][0] + "</option>\r\n";
+				tmp_select += tmp_opt;
 			}
 		}
 
 		// output finished select options
-		a.get("c_select").innerHTML = Character_opt;
-		a.get("set_select").innerHTML = Setting_opt;
-		a.get("i_select").innerHTML = Item_opt;
-		a.get("n_select").innerHTML = Note_opt;
+		a.get("n_select").innerHTML = tmp_select;
 
 	},
 	load_note : function (n_id) {
 		scribe.default.note = n_id;
 		scribe.save_settings();
-		var tmp_note = scribe.data[scribe.default.project].p_notes[scribe.default.note];
+		for (i = 0; i < scribe.data[scribe.default.project].p_notes.length; i += 1){
+			if (scribe.data[scribe.default.project].p_notes[i][3] == n_id) {
+				var tmp_note = scribe.data[scribe.default.project].p_notes[i];
+			}
+		}		
 			a.get("note_name").value = tmp_note[0];
-			a.get("note_cat").innerHTML = tmp_note[1];
+			a.get("note_cat").value = tmp_note[1];
 			a.get("note_text").value = tmp_note[2];
+	},
+	get_note_id : function (name) {
+		for (i = 0; i < tmp_notes.length; i +=1){
+			if (tmp_notes[i][0] == name) {
+				scribe.default.note = i;
+			}
+		}
 	},
 	delete_note : function () {
 		if(confirm("Delete note?")){
-			scribe.data[scribe.default.project].p_notes.splice(scribe.default.note,1);
-			for (i in scribe.data[scribe.default.project].p_notes) {
-				var tmp = 0;
-				if (tmp === 0) {
-					scribe.default.note = i;
-				} 
-			}
+			var tmp_index = 0;
+			for (i = 0; i < scribe.data[scribe.default.project].p_notes.length; i += 1){
+				if (scribe.data[scribe.default.project].p_notes[i][3] == scribe.default.note) {
+					var tmp_index = i;
+				}
+			}	
+
+			scribe.data[scribe.default.project].p_notes.splice(tmp_index,1);
+			scribe.default.note = scribe.data[scribe.default.project].p_notes[0][3];
 			scribe.save_current_projects();
 			scribe.save_settings();
 			scribe.init();
 		}
 	},
-	new_note : function (category) {
+	new_note : function () {
 		var tmp_notes = scribe.data[scribe.default.project].p_notes;
-		var tmp_name = prompt("What would you like to name this note?","New " + category + " " +tmp_notes.length);
+		var tmp_name = prompt("What would you like to name this note?","New Note " + tmp_notes.length);
+		var tmp_cat = prompt("What category does this note go in?","Note");
+		var tmp_id = tmp_notes.length;
 		if (tmp_name != null) {
-			scribe.default.note = tmp_notes.length;
-		tmp_notes.push([tmp_name,category,""]);
-		scribe.save_current_projects();
-		scribe.save_settings();
-		scribe.init();
+			scribe.default.note = tmp_id;
+			tmp_notes.push([tmp_name,tmp_cat,"",tmp_id]);
+			scribe.save_current_projects();
+			scribe.save_settings();
+			scribe.init();
+		}
+	},
+	duplicate_note : function () {
+		var tmp_notes = scribe.data[scribe.default.project].p_notes;
+		var tmp_name = prompt("What would you like to name this note?","New Note " + tmp_notes.length);
+		var tmp_cat = prompt("What category does this note go in?","Note");
+		var tmp_text = a.get("note_text").value;
+		var tmp_id = tmp_notes.length;
+		console.log(a.get("note_text").value);
+		if (tmp_name != null) {
+			scribe.default.note = tmp_id;
+			tmp_notes.push([tmp_name,tmp_cat,tmp_text,tmp_id]);
+			scribe.save_current_projects();
+			scribe.save_settings();
+			scribe.init();
 		}
 	},
 
@@ -645,13 +804,14 @@ var scribe = {
 		tmp_print += "</p>";
 		a.get("print_text").innerHTML = tmp_print;
 	},
-	
+
 	data : [{
 		p_title : "The Default Project",
 		p_author : "Kendall Purser",
 		p_createdate : "2016-07-13",
 		p_lastdate : "2016-07-14",
 		p_wordcount : 0,
+		p_wordcount_goal: 50000,
 		sprint_wordcount : 0,
 		p_scenes : [{
 			s_lastdate : "2016-07-14",
@@ -667,11 +827,11 @@ var scribe = {
 			s_text : "John said, \"Why don\'t we go and get a lemonade?\" \r\n Mary said, \"I\'d rather have a sandwich.\""
 		}],
 		p_notes : [ // [name,category,text] 
-			["John","Character","Tall, dark, handsome!"],
-			["Mary","Character", "The woman of John's dreams"],
-			["Park","Setting", "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches."],
-			["Rose","Item","A beautiful pink thornless rose."],
-			["Things to think about","Note","Scene 1: Should I make it rain on them while they are in the park?"]
+			["John","Character","Tall, dark, handsome!",0],
+			["Mary","Character", "The woman of John's dreams",1],
+			["Park","Setting", "A beautiful park in the residential part of town. There is a ball diamond on one end and a walking path around the outside dotted with park benches.",2],
+			["Rose","Item","A beautiful pink thornless rose.",3],
+			["Things to think about","Note","Scene 1: Should I make it rain on them while they are in the park?",4]
 		]
 	}]
 };
