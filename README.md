@@ -41,6 +41,46 @@ a.clear("scribe_data"); // This will delete all projects, so be careful!
 
 # Changelog
 
+0.6
+---
+
+New UI- All tabs, only split on Scene/Chapter tab
+
+Set Project Word Count Goal
+
+Automatic Chapter Generation
+
+Outline tab shows average words per Scene/Chapter to reach goal
+
+Outline tab shows gradient of completion per Scene/Chapter to reach goal
+
+Scene/Chapter tab shows word count for Scene, Total, and Sprint
+
+Scene/Chapter defaults to focus mode, and has "Toggle Notes" button to split screen
+
+Notes tab has new UI
+
+Notes tab allows you to create your own categories
+
+Notes dropdown is organized alphabetically by category then note name.
+
+Tools tab includes several in browser tools to help authors with the writing process. Including several public domain image libraries.
+
+Preview tab uses monospace font, and double line spacing to bring it closer to Standard Manuscript Format. 
+
+Print width was fixed.
+
+Settings tab allows the user to set a custom background image or color.
+
+Settings tab has font size and type options.
+
+Settings tab has Night Mode Toggle.
+
+Settings tab allows the user to set the default writing unit to Chapter, Scene, or Story.
+
+Settings tab has clear descriptions to help users decide when they need to purge settings or memory.
+
+
 0.5
 ---
 
