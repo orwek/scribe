@@ -217,7 +217,7 @@ var scribe = {
 	},
 	load_settings : function () {
 		// load settings from localStorage if available
-		if (a.read("scribe_settings") !== undefined){
+		if (a.read("scribe_settings") !== null){
 			scribe.default = a.read("scribe_settings");
 		} else {
 			scribe.purge_settings();
