@@ -188,6 +188,8 @@
 		border: 1px solid #e7e7e7;
 		overflow-y: scroll;
 		height: 480px;
+		font-size: 12pt;
+		line-height: 2;
 	}
 	#s_text, #note_text {
 		width: 970px;
@@ -200,9 +202,6 @@
 		height: 50px;
 		overflow-y: scroll;
 		padding: 10px;
-	}
-	.half-screen {
-		width: 485px;
 	}
 	.left-column, .right-column {
 		position: absolute;
@@ -232,6 +231,13 @@
 		float: left;
 	}
 
+	.scene_goal {
+		width: 60px; 
+		height: 17px; 
+		float: left;
+		text-align: center;
+	}
+
 @media print {
 	
 	#navbar, #project, #scene, #character, #setting, #outline, h3, a {
@@ -247,13 +253,14 @@
 	}
 
 	#print_text{
-		width: 300%;
-		margin-left: -5%;
-		margin-top: -10%;
+		width: 150%;
+		margin-left: 0%;
+		margin-top: 0%;
 		padding: 10px;
 		height: auto;
 		overflow-y: auto;
-		font-size: 14pt;
+		font-size: 12pt;
+		line-height: 2;
 	}
 
 	.center-column {
@@ -261,37 +268,36 @@
 	}
 }
 
-/* focus mode styles */
-.focus {
-	position: absolute;
-	width: auto;
-	height: 600px;
-	z-index: 100;
-	background-color: #ffffff;
-}
+/* Toggle Notes*/
+	.half-screen {
+		width: 485px !important;
+		float: left;
+	}
+	.half-screen textarea {
+		width: 95% !important;
+	}
+	.half-screen input[type=text] {
+		width: 100px !important;
+	}
+	.half-screen select {
+		width: 100px !important;
+	}
+	.half-screen .left-column, .half-screen .right-column{
+		top: 55px;
+		width: 220px !important;
+		font-size: 10px;
+		height: 85px !important;
+	}
+	.half-screen .left-column textarea {
+		width: 90% !important;
+		height: 25% !important;
+		font-size: 10px !important;
+	}
+	.half-screen .spacer {
+		height: 40px;
+		width: 100%;
+	}
 
-.focus h3 {
-	float: left;
-}
-
-.focus .left-column, .focus .right-column {
-	width: 210px !important;
-	height: 80px !important;
-	position: absolute;
-	top: 0px;
-	right: 10px;
-}
-
-.focus .left-column {
-	right: 240px !important;
-	width: 440px !important;
-}
-
-.focus .focus_1 {
-	position: absolute;
-	top: 10px;
-	right: 0px;
-}
 
 .red_back {
 	background-color: pink;

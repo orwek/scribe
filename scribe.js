@@ -14,7 +14,8 @@ var scribe = {
 		sprint_word_count : 0, // set a benchmark to compare the project word count to
 		split : 0, // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
 		font_size: "font12", // saved font size
-		font_family: "monospace" // saved font family
+		font_family: "monospace", // saved font family
+		write_unit: "Chapter"
 	},
 	tabs : ["project", "outline", "scene", "notes", "preview", "tools", "settings" ],
 	template : [
@@ -45,11 +46,24 @@ var scribe = {
 		a.get("s_text").className = scribe.default.font_size + " " + scribe.default.font_family;
 		a.get("s_purpose").className = scribe.default.font_size + " " + scribe.default.font_family;
 		
+		// Writing Unit
+		a.get("write_unit").value = scribe.default.write_unit;
+		a.get("scene_btn").innerHTML = scribe.default.write_unit;
+
+		// Backup Email Link
+		scribe.back_email();
+
 		// night mode
 		scribe.night_toggle();
 
 		// activate ctrl+s
 		scribe.keyboard_save();
+
+	},
+	write_unit : function (unit) {
+		scribe.default.write_unit = unit;
+		scribe.save_settings();
+		scribe.init();
 	},
 	keyboard_save : function () {
 		var isCtrl = false;
@@ -65,6 +79,16 @@ var scribe = {
 		        return false;
 		    }
 		}
+	},
+	back_email : function () {
+		var template = "mailto:you@email.com?subject=Scribe 0.6 {{p_name}}&body={{body}}";
+		var p_name = scribe.data[scribe.default.project].p_title;
+		var tmp_body = encodeURI(JSON.stringify(scribe.data));
+		//var tmp_body = encodeURI(scribe.data);
+
+		template = template.replace("{{p_name}}",p_name);
+		template = template.replace("{{body}}",tmp_body);
+		//a.get("back_email").href= template;
 	},
 // Settings
 	update_font : function () {
@@ -141,43 +165,7 @@ var scribe = {
 			a.get("s_purpose").style = "";
 			a.get("print_text").style = "";
 		}
-		
 	},
-	// change scene view
-	scene_mode : function (num_in) {
-
-		if (scribe.default.split === 1) {
-			// 0 = turn off focus mode
-			scribe.default.split = 0;
-		} else {
-			// 1 = turn on focus mode
-			scribe.default.split = 1;
-		}
-		scribe.save_settings();
-		scribe.save_project();
-		scribe.init();
-	},
-	/*
-	nav : function (id_in) {
-		// clear split mode if on and navigation happens
-		if (scribe.default.focus > 0) {
-			// make panes half width
-			a.get("scene").className = "pane show focus";
-			a.get("notes").className = "pane show focus";
-			a.get("preview").className = "pane show focus";
-			a.get("s_text").cols = "127";
-			a.get("s_text").rows = "26";
-		} else {
-			// return scene to default settings
-			a.get("scene").className = "pane show";
-			a.get("s_text").cols = "64";
-			a.get("s_text").rows = "20";
-			
-		}
-		// use normal navigation
-		scribe.go_nav(id_in);
-	},
-	*/
 	nav : function (id) {
 		scribe.default.nav = id;
 		var tmp = scribe.tabs;
@@ -188,7 +176,19 @@ var scribe = {
 		}
 		a.get(id).className = "pane show";
 		a.get(id + "_btn").className = "btn btn_select";
+		scribe.default.split = 0; // toggle_notes compliance
 		scribe.save_settings();
+	},
+	toggle_notes : function () {
+		if (scribe.default.split == 0) {
+			a.get("scene").className = "pane half-screen show";
+			a.get("notes").className = "pane half-screen show"
+			scribe.default.split = 1;
+		} else {
+			a.get("scene").className = "pane show";
+			a.get("notes").className = "hide"
+			scribe.default.split = 0;
+		}	
 	},
 	goal_check : function() {
 		// check for project and chapter goals
@@ -258,13 +258,13 @@ var scribe = {
 			sprint_wordcount : 0,
 			p_scenes : [{
 				s_lastdate : "2016-07-14",
-				s_title : "Scene 0- Once upon a time",
+				s_title : "Scene 1- Once upon a time",
 				s_purpose : "To begin the story and introduce the characters.",
 				s_characters : "John and Mary",
 				s_text : "CHAPTER 1 \r\n\r\n Once upon a time John and Mary sat on a bench in the park. It was a lovely spring day and the bees were buzzing around the tulips and crocuses."
 			},{
 				s_lastdate : "2016-07-18",
-				s_title : "Scene 1- The plot thickens",
+				s_title : "Scene 2- The plot thickens",
 				s_purpose : "To develop the characters more.",
 				s_characters : "John and Mary",
 				s_text : "John said, \"Why don\'t we go and get a lemonade?\" \r\n Mary said, \"I\'d rather have a sandwich.\""
@@ -286,15 +286,17 @@ var scribe = {
 	purge_settings : function () {
 		var tmp_default = {
 			view : "project", // project, scene, character, setting, print
-			project : 0, // index in data of project last opened
-			scene : 0, // index of scene in project last opened
-			note : 0, // note in project last opened
-			nav : "project",
-			backimg : "https://cdn.morguefile.com/imageData/public/files/r/revwarheart/10/l/1414391237k1mz6.jpg",
-			night : 0, // 0 = white back, black text; 1 = Black back, white text
-			sprint_word_count : 0, // set a benchmark to compare the project word count to
-			split : 0 // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
-
+		project : 0, // index in data of project last opened
+		scene : 0, // index of scene in project last opened
+		note : 0, // note in project last opened
+		nav : "project",
+		backimg : "https://cdn.morguefile.com/imageData/public/files/r/revwarheart/10/l/1414391237k1mz6.jpg",
+		night : 0, // 0 = white back, black text; 1 = Black back, white text
+		sprint_word_count : 0, // set a benchmark to compare the project word count to
+		split : 0, // allow two divs to be seen at the same time: 0 no, 1 notes, 2 preview 
+		font_size: "font12", // saved font size
+		font_family: "monospace", // saved font family
+		write_unit: "Chapter"
 		};
 		a.clear('scribe_settings');
 		scribe.default = tmp_default;
@@ -347,6 +349,7 @@ var scribe = {
 			tmp_tmpl = tmp_tmpl.replace("{{id_2}}",i);
 
 			// outline wordcount shading
+			scribe.scene_goal();
 			var scene_wc = scribe.word_count(tmp_p.p_scenes[i].s_text);
 			
 			var sp_wc = scene_wc/(tmp_p.p_wordcount_goal/tmp_p.p_scenes.length);
@@ -462,7 +465,7 @@ var scribe = {
 				p_wordcount_goal : 50000,
 				p_scenes : [{
 					s_lastdate : scribe.get_date(),
-					s_title : "blank scene",
+					s_title : scribe.default.write_unit + " " + 1,
 					s_purpose : "",
 					s_characters : "",
 					s_text : ""
@@ -554,13 +557,31 @@ var scribe = {
 	set_goal : function () {		
 		scribe.data[scribe.default.project].p_wordcount_goal = a.get("p_wordcount_goal").value;
 	},
+	scene_goal : function () {
+		var wc = scribe.data[scribe.default.project].p_wordcount_goal;
+		var sc = scribe.data[scribe.default.project].p_scenes.length;
+		a.get("scene_goal").innerHTML = Math.ceil(wc/sc) + " ";
+	},
 	generate_chapters : function () {
 		// get vars from form
-		var tmp_goal = a.get("p_goal");
 		var tmp_ch = a.get("p_ch_goal");
-		var tmp_ch_goal = Math.ceil(tmp_goal/tmp_ch);
-
+		var curr_length = scribe.data[scribe.default.project].p_scenes.length;
+		var tmp_title = scribe.default.write_unit;
+		var tmp_ch = a.get("p_ch_goal").value;
 		// check any existing chapters and add additional chapters with chapter wordcount goal
+		if (curr_length < tmp_ch){
+			for (i = curr_length + 1; i < tmp_ch; i +=1 ){
+				scribe.data[scribe.default.project].p_scenes.push({
+					s_lastdate : scribe.get_date(),
+					s_title : tmp_title + " " + i,
+					s_purpose : "",
+					s_characters : "",
+					s_text : ""
+				});
+			}
+		}
+		scribe.save_project();
+		scribe.init();
 	},
 
 	// Scene Functions
@@ -611,7 +632,7 @@ var scribe = {
 	},
 	new_scene : function () {
 		// generate new s_id and blank scene UI
-		var tmp_title = prompt("What would you like to name your new scene?", "Scene " + scribe.data[scribe.default.project].p_scenes.length);
+		var tmp_title = prompt("What would you like to name your new scene?", scribe.default.write_unit +" " + scribe.data[scribe.default.project].p_scenes.length);
 		if (tmp_title != null) {
 			scribe.data[scribe.default.project].p_scenes.push({
 				s_lastdate : scribe.get_date(),
@@ -815,13 +836,13 @@ var scribe = {
 		sprint_wordcount : 0,
 		p_scenes : [{
 			s_lastdate : "2016-07-14",
-			s_title : "Scene 0- Once upon a time",
+			s_title : "Scene 1- Once upon a time",
 			s_purpose : "To begin the story and introduce the characters.",
 			s_characters : "John and Mary",
 			s_text : "CHAPTER 1 \r\n\r\n Once upon a time John and Mary sat on a bench in the park. It was a lovely spring day and the bees were buzzing around the tulips and crocuses."
 		},{
 			s_lastdate : "2016-07-18",
-			s_title : "Scene 1- The plot thickens",
+			s_title : "Scene 2- The plot thickens",
 			s_purpose : "To develop the characters more.",
 			s_characters : "John and Mary",
 			s_text : "John said, \"Why don\'t we go and get a lemonade?\" \r\n Mary said, \"I\'d rather have a sandwich.\""

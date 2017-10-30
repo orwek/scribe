@@ -77,12 +77,22 @@
 			<a class="btn" onclick="scribe.export_project();">Export Save File</a>
 			<a class="btn" onclick="scribe.export_text();">Export Text</a>
 			<a class="btn" onclick="scribe.export_summary();">Export Summary</a>
-			<a class="btn" onclick="scribe.export_notes();">Export Notes</a>
+			<a class="btn" onclick="scribe.export_notes();">Export Notes</a><br />
+			<!--
+				<a class="btn" id="back_email" href="mailto:" target="_blank">Email Backup File</a>
+			-->
 		</div>
 	</div>
 <!-- outline -->
 	<div id="outline" class="pane">
 		<h3>Outline</h3>
+		<div style="float: right;">
+			<div style="float: left; margin-right: 10px;">Words/Unit: <span id="scene_goal"></span></div>
+			<div class="scene_goal red_back">0-33%</div>
+			<div class="scene_goal yellow_back">34-66%</div>
+			<div class="scene_goal green_back">67-99%</div>
+			<div class="scene_goal blue_back">100%+</div>
+		</div>
 		<br style="clear: both;" />
 		<div id="outline_stage">
 			<div id='{{id}}' class='outline_row'>
@@ -101,10 +111,8 @@
 		</select>
 		<a class="btn" onclick="scribe.new_scene();">New</a>
 		<a class="btn btn_select" onclick="scribe.save_project();">Save</a>		
-		<a class="btn" onclick="scribe.delete_scene();">Delete</a><br /><br />		
-		<!--
-		<a id="focus" class="btn" style="background-color: lightblue;" onclick="scribe.focus_mode();">Focus Mode</a>
-		-->		
+		<a class="btn" onclick="scribe.delete_scene();">Delete</a>		
+		<a class="btn blue_back" onclick="scribe.toggle_notes();">Toggle Notes</a><br /><br />
 		<div id="s_left" class="left-column">
 			Title: <input type="text" id="s_title" size="29" /><br />
 			Purpose: <br /><textarea id="s_purpose" rows="5" cols="50"></textarea>
@@ -149,7 +157,8 @@
 		<select id="n_select" onclick="scribe.load_note(this.value);">
 			<option value="Select">Select</option>
 		</select>
-		Name: <input type="text" id="note_name" /> Category: <input id="note_cat" style=""></ /span><br />
+		Name: <input type="text" id="note_name" /> Category: <input type="text" id="note_cat"/><br />
+		<div class="spacer"></div>
 		<h3>Text:</h3>
 		<textarea cols="130" rows="20" id="note_text"></textarea>
 	</div>
@@ -176,10 +185,13 @@
 	    	How hard is it to read your book? Run it through this Readability Score tool to see what grade level your manuscript falls under.<br />
 	    </div>
 	    <div class="tool_box">
-	    	<a class="btn" href="http://www.glassgiant.com/ascii/" target ="_blank"> 
-	    	ascii art generator</a> <br /><br />
-	    	For those days when you fell a bit... old school ;)<br />
+	    	<a class="btn" href="https://www.shunn.net/format/story.html" target="_blank">Standard Manuscript Format</a><br /><br />
+	    	A great example of what Standard Manuscript Fromat (SMF) looks like.
+
 	    </div>
+	    <hr style="clear: both;" />
+	    <h3>Images</h3>
+	    
 	    <div class="tool_box">
 		    <b> Creative Commons & Public Domain Images </b><br /><br />
 		    <a class="btn" href="http://www.pdimages.com/" target ="_blank">
@@ -191,6 +203,11 @@
 		    <a class="btn" href="https://morguefile.com/search/morguefile/1/pop" target ="_blank"> 
 		    	Morguefile Images</a><br /><br />
 		    <a class="btn" href="https://www.pexels.com/" target ="_blank"> Pexels</a><br />
+	    </div>
+	    <div class="tool_box">
+	    	<a class="btn" href="http://www.glassgiant.com/ascii/" target ="_blank"> 
+	    	ascii art generator</a> <br /><br />
+	    	For those days when you fell a bit... old school ;)<br />
 	    </div>
 	</div>
 <!-- settings -->
@@ -219,6 +236,16 @@
 				<option class="script" value="script">Script</option>
 			</select>
 			<input type="button" value="Update Font" onclick="scribe.update_font();" /><br />	
+		</div>
+		<div class="tool_box">
+			<b>Project Settings</b><br />
+			Writing unit: 
+			<select id="write_unit">
+				<option value="Chapter">Chapter</option>
+				<option value="Scene">Scene</option>
+				<option value="Story">Story</option>
+			</select>
+			<input type="button" value="Update Unit" onclick="scribe.write_unit(a.get('write_unit').value);" /><br />
 		</div>
 		<div class="tool_box">
 			<b>Theme</b><br />
