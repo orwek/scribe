@@ -435,7 +435,6 @@ var scribe = {
 				var tmp_note = scribe.data[scribe.default.project].p_notes[i];
 			}
 		}	
-
 		tmp_note[0] = a.get("note_name").value;
 		tmp_note[1] = a.get("note_cat").value;
 		tmp_note[2] = a.get("note_text").value;
@@ -734,7 +733,7 @@ var scribe = {
 
 		// output finished select options and load first note
 		a.get("n_select").innerHTML = tmp_select;
-		scribe.load_note(scribe.default.note);
+		//scribe.load_note(scribe.default.note);
 
 	},
 	load_note : function (n_id) {
