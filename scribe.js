@@ -429,10 +429,16 @@ var scribe = {
 		tmp_s.s_text = a.get("s_text").value;
 
 		// different data structure for notes
+		var n_id = scribe.default.note;
+		for (i = 0; i < scribe.data[scribe.default.project].p_notes.length; i += 1){
+			if (scribe.data[scribe.default.project].p_notes[i][3] == n_id) {
+				var tmp_note = scribe.data[scribe.default.project].p_notes[i];
+			}
+		}	
 
-		tmp_n[scribe.default.note][0] = a.get("note_name").value;
-		tmp_n[scribe.default.note][1] = a.get("note_cat").value;
-		tmp_n[scribe.default.note][2] = a.get("note_text").value;
+		tmp_note[0] = a.get("note_name").value;
+		tmp_note[1] = a.get("note_cat").value;
+		tmp_note[2] = a.get("note_text").value;
 		
 		// save them and show them
 		scribe.save_current_projects();
@@ -726,8 +732,9 @@ var scribe = {
 			}
 		}
 
-		// output finished select options
+		// output finished select options and load first note
 		a.get("n_select").innerHTML = tmp_select;
+		scribe.load_note(scribe.default.note);
 
 	},
 	load_note : function (n_id) {
