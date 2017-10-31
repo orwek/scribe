@@ -51,6 +51,7 @@
 		background-color: #e7e7e7;
 		float: left;
 		margin: 10px;
+		min-height: 80px;
 	}
 
 	.tool_box .btn {
