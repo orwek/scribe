@@ -577,10 +577,10 @@ var scribe = {
 		var tmp_ch = a.get("p_ch_goal").value;
 		// check any existing chapters and add additional chapters with chapter wordcount goal
 		if (curr_length < tmp_ch){
-			for (i = curr_length + 1; i < tmp_ch; i +=1 ){
+			for (i = curr_length; i < tmp_ch; i +=1 ){
 				scribe.data[scribe.default.project].p_scenes.push({
 					s_lastdate : scribe.get_date(),
-					s_title : tmp_title + " " + i,
+					s_title : tmp_title + " " + (i+1),
 					s_purpose : "",
 					s_characters : "",
 					s_text : ""
