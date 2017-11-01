@@ -748,6 +748,19 @@ var scribe = {
 			a.get("note_cat").value = tmp_note[1];
 			a.get("note_text").value = tmp_note[2];
 	},
+	check_id : function () {
+		// Used when creating or duplicating a note
+		// Find largest id and return id + 1
+		var tmp_notes = scribe.data[scribe.default.project].p_notes;
+		var test = -1;
+		// get largest index number
+		for  (i = 0; i < tmp_notes.length; i += 1) {
+			if(tmp_notes[i][3] > test){
+				test = tmp_notes[i][3];
+			}
+		}
+		return test + 1;		
+	},
 	get_note_id : function (name) {
 		for (i = 0; i < tmp_notes.length; i +=1){
 			if (tmp_notes[i][0] == name) {
@@ -775,7 +788,8 @@ var scribe = {
 		var tmp_notes = scribe.data[scribe.default.project].p_notes;
 		var tmp_name = prompt("What would you like to name this note?","New Note " + tmp_notes.length);
 		var tmp_cat = prompt("What category does this note go in?","Note");
-		var tmp_id = tmp_notes.length;
+
+		var tmp_id = scribe.check_id();
 		if (tmp_name != null) {
 			scribe.default.note = tmp_id;
 			tmp_notes.push([tmp_name,tmp_cat,"",tmp_id]);
@@ -789,7 +803,7 @@ var scribe = {
 		var tmp_name = prompt("What would you like to name this note?","New Note " + tmp_notes.length);
 		var tmp_cat = prompt("What category does this note go in?","Note");
 		var tmp_text = a.get("note_text").value;
-		var tmp_id = tmp_notes.length;
+		var tmp_id = scribe.check_id();
 		console.log(a.get("note_text").value);
 		if (tmp_name != null) {
 			scribe.default.note = tmp_id;
