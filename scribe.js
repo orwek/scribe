@@ -176,7 +176,8 @@ var scribe = {
 		}
 		a.get(id).className = "pane show";
 		a.get(id + "_btn").className = "btn btn_select";
-		scribe.default.split = 0; // toggle_notes compliance
+		// toggle_notes compliance still buggy in 0.6 (Doesn't stay open on a save)
+		scribe.default.split = 0; 	
 		scribe.save_settings();
 	},
 	toggle_notes : function () {
@@ -184,10 +185,12 @@ var scribe = {
 			a.get("scene").className = "pane half-screen show";
 			a.get("notes").className = "pane half-screen show"
 			scribe.default.split = 1;
+			scribe.save_settings();
 		} else {
 			a.get("scene").className = "pane show";
 			a.get("notes").className = "hide"
 			scribe.default.split = 0;
+			scribe.save_settings();
 		}	
 	},
 	goal_check : function() {
